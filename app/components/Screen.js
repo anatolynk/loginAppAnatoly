@@ -7,9 +7,10 @@ import {
   View,
 } from 'react-native';
 
-function Screen({ children, style }) {
+function Screen({ children, style, barStyle }) {
   return (
     <SafeAreaView style={[styles.screen, style]}>
+      {barStyle && <StatusBar barStyle={barStyle} />}
       <View style={[styles.view, style]}>{children}</View>
     </SafeAreaView>
   );
@@ -24,5 +25,6 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
+    paddingHorizontal: 22,
   },
 });

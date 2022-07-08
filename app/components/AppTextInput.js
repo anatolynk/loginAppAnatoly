@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import themeColors from '../config/themeColors';
 
-function AppTextInput({ ...otherProps }) {
+function AppTextInput({ style, ...otherProps }) {
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, style]}
         placeholderTextColor={themeColors.grey}
         {...otherProps}
       />

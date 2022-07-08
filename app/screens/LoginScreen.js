@@ -8,10 +8,13 @@ import AppTitle from '../components/AppTitle';
 import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 function LoginScreen(props) {
   return (
     <Screen>
       <View style={styles.container}>
+        <Icon name="mail" size={60} />
         <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
         <View style={styles.inputContainer}>
           <AppTextInput placeholder="Enter your email" />
@@ -23,7 +26,17 @@ function LoginScreen(props) {
           color={themeColors.darkGrey}
           onPress={() => console.log('Forgot')}
         />
-        <AppButton title="Login" onPress={() => console.log('Login')} />
+
+        <View style={styles.buttonContainer}>
+          <AppButton title="Login" onPress={() => console.log('Login')} />
+        </View>
+        <View style={styles.linkContainer}>
+          <AppLink
+            title="Don’t have an account? Register Now"
+            color={themeColors.primary}
+            onPress={() => console.log('Register Now')}
+          />
+        </View>
       </View>
     </Screen>
   );
@@ -32,6 +45,16 @@ function LoginScreen(props) {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   inputContainer: {},
+  buttonContainer: {
+    marginTop: 30,
+  },
+  linkContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 26,
+  },
 });

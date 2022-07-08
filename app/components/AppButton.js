@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderColor: themeColors.dark,
   },
   buttonTitle: {
-    fontSize: 18,
+    fontSize: 15,
     color: themeColors.white,
     textAlign: 'center',
     fontWeight: '600',

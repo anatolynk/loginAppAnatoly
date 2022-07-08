@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import AppButton from '../components/AppButton';
+import AppLink from '../components/AppLink';
 import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
 
@@ -33,11 +34,12 @@ function WelcomeScreen(props) {
             onPress={() => console.log('Register')}
           />
         </View>
+
         <View style={styles.buttonNative}>
-          <Button
+          <AppLink
             title="Continue as a guest"
             color={themeColors.primary}
-            onPress={() => console.log('Guest')}
+            onPress={() => console.log('Guest Link')}
           />
         </View>
       </ImageBackground>

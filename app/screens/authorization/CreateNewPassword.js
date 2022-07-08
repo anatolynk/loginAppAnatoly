@@ -1,30 +1,31 @@
 import React from 'react';
 import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
-import AppButton from '../components/AppButton';
-import AppLink from '../components/AppLink';
-import AppText from '../components/AppText';
-import AppTextInput from '../components/AppTextInput';
-import AppTitle from '../components/AppTitle';
-import Screen from '../components/Screen';
-import themeColors from '../config/themeColors';
+import AppButton from '../../components/AppButton';
+import AppLink from '../../components/AppLink';
+import AppText from '../../components/AppText';
+import AppTextInput from '../../components/AppTextInput';
+import AppTitle from '../../components/AppTitle';
+import Screen from '../../components/Screen';
+import themeColors from '../../config/themeColors';
 
-import AppIcon from '../components/AppIcon';
-import AppButtonIcon from '../components/AppButtonIcon';
-import AppBackIcon from '../components/AppBackIcon';
+import AppIcon from '../../components/AppIcon';
+import AppButtonIcon from '../../components/AppButtonIcon';
+import AppBackIcon from '../../components/AppBackIcon';
 
-function RegisterScreen(props) {
+function CreateNewPassword(props) {
   return (
     <Screen>
       <View style={styles.container}>
         <AppBackIcon onPress={() => console.log('super back')} />
         <View style={styles.title}>
-          <AppTitle>Hello! Register to get started</AppTitle>
+          <AppTitle>Create new password</AppTitle>
+          <AppText>
+            Your new password must be unique from those previously used.
+          </AppText>
         </View>
         <View style={styles.inputContainer}>
-          <AppTextInput placeholder="Name" />
-          <AppTextInput placeholder="Email" />
           <AppTextInput
-            placeholder="Password"
+            placeholder="New Password"
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="password"
@@ -42,13 +43,16 @@ function RegisterScreen(props) {
         </View>
 
         <View style={styles.buttonContainer}>
-          <AppButton title="Register" onPress={() => console.log('Register')} />
+          <AppButton
+            title="Set New Password"
+            onPress={() => console.log('Set New Password')}
+          />
         </View>
         <View style={styles.linkContainer}>
           <AppLink
-            title="Already have an account? Login Now"
+            title="Remember Password? Login"
             color={themeColors.primary}
-            onPress={() => console.log('Login Now')}
+            onPress={() => console.log('Login')}
           />
         </View>
       </View>
@@ -56,7 +60,7 @@ function RegisterScreen(props) {
   );
 }
 
-export default RegisterScreen;
+export default CreateNewPassword;
 
 const styles = StyleSheet.create({
   container: {

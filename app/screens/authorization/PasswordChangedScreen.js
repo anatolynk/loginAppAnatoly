@@ -1,16 +1,16 @@
 import React from 'react';
 import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
-import AppButton from '../components/AppButton';
-import AppLink from '../components/AppLink';
-import AppText from '../components/AppText';
-import AppTextInput from '../components/AppTextInput';
-import AppTitle from '../components/AppTitle';
-import Screen from '../components/Screen';
-import themeColors from '../config/themeColors';
+import AppButton from '../../components/AppButton';
+import AppLink from '../../components/AppLink';
+import AppText from '../../components/AppText';
+import AppTextInput from '../../components/AppTextInput';
+import AppTitle from '../../components/AppTitle';
+import Screen from '../../components/Screen';
+import themeColors from '../../config/themeColors';
 
-import AppIcon from '../components/AppIcon';
-import AppButtonIcon from '../components/AppButtonIcon';
-import AppBackIcon from '../components/AppBackIcon';
+import AppIcon from '../../components/AppIcon';
+import AppButtonIcon from '../../components/AppButtonIcon';
+import AppBackIcon from '../../components/AppBackIcon';
 
 function PasswordChangedScreen(props) {
   return (

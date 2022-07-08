@@ -9,12 +9,16 @@ import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
 
 import AppIcon from '../components/AppIcon';
+import AppButtonIcon from '../components/AppButtonIcon';
+import AppBackIcon from '../components/AppBackIcon';
 
 function LoginScreen(props) {
   return (
     <Screen>
       <View style={styles.container}>
-        <AppIcon name="chevron-back" size={60} />
+        <View style={styles.buttonBack}>
+          <AppBackIcon onPress={() => console.log('super back')} />
+        </View>
         <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
         <View style={styles.inputContainer}>
           <AppTextInput placeholder="Enter your email" />

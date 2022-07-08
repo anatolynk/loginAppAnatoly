@@ -22,7 +22,14 @@ function LoginScreen(props) {
         </View>
         <View style={styles.inputContainer}>
           <AppTextInput placeholder="Enter your email" />
-          <AppTextInput placeholder="Enter your password" />
+          <AppTextInput
+            placeholder="Enter your password"
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="password"
+            name="password"
+            secureTextEntry={true}
+          />
         </View>
         <AppLink
           title="Forgot Password?"

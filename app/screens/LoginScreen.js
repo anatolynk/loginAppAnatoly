@@ -8,13 +8,13 @@ import AppTitle from '../components/AppTitle';
 import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import AppIcon from '../components/AppIcon';
 
 function LoginScreen(props) {
   return (
     <Screen>
       <View style={styles.container}>
-        <Icon name="mail" size={60} />
+        <AppIcon name="chevron-back" size={60} />
         <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
         <View style={styles.inputContainer}>
           <AppTextInput placeholder="Enter your email" />

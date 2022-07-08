@@ -16,10 +16,10 @@ function LoginScreen(props) {
   return (
     <Screen>
       <View style={styles.container}>
-        <View style={styles.buttonBack}>
-          <AppBackIcon onPress={() => console.log('super back')} />
+        <AppBackIcon onPress={() => console.log('super back')} />
+        <View style={styles.title}>
+          <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
         </View>
-        <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
         <View style={styles.inputContainer}>
           <AppTextInput placeholder="Enter your email" />
           <AppTextInput placeholder="Enter your password" />
@@ -60,5 +60,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     marginBottom: 26,
+  },
+  title: {
+    marginBottom: 32,
   },
 });

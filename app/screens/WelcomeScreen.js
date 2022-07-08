@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import AppButton from '../components/AppButton';
 import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
 
@@ -25,15 +26,19 @@ function WelcomeScreen(props) {
           />
         </View>
         <View styles={styles.buttonsContainer}>
-          <View style={styles.button}>
-            <Button title="Login" />
-          </View>
-          <View style={styles.button}>
-            <Button title="Register" />
-          </View>
-          <View style={styles.button}>
-            <Button title="Continue as a guest" />
-          </View>
+          <AppButton title="Login" onPress={() => console.log('Login')} />
+          <AppButton
+            title="Register"
+            color="white"
+            onPress={() => console.log('Register')}
+          />
+        </View>
+        <View style={styles.buttonNative}>
+          <Button
+            title="Continue as a guest"
+            color={themeColors.primary}
+            onPress={() => console.log('Guest')}
+          />
         </View>
       </ImageBackground>
     </View>
@@ -49,6 +54,8 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: 'flex-end',
+    marginBottom: 30,
+    paddingHorizontal: 22,
   },
 
   logoContainer: {
@@ -62,14 +69,10 @@ const styles = StyleSheet.create({
   },
 
   buttonsContainer: {
-    width: '100%',
-    padding: 20,
+    //
   },
 
-  button: {
-    width: '100%',
-    height: 56,
-    backgroundColor: themeColors.dark,
-    borderRadius: 8,
+  buttonNative: {
+    marginTop: 46,
   },
 });

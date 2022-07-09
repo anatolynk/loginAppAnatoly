@@ -19,7 +19,13 @@ import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 
-import { useForm, Controller } from 'react-hook-form';
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
@@ -64,6 +70,9 @@ function LoginScreen(props) {
                 onChangeText={onChange}
                 value={value}
                 placeholder="Enter your email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
               />
             )}
             name="email"

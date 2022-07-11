@@ -12,6 +12,7 @@ import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import AppOTPInput from '../../components/AppOTPInput';
+import routes from '../../navigation/routes';
 
 function OTPVerificationScreen({ navigation }) {
   return (
@@ -33,7 +34,7 @@ function OTPVerificationScreen({ navigation }) {
         <View style={styles.buttonContainer}>
           <AppButton
             title="Verify"
-            onPress={() => navigation.navigate('PasswordChanged')}
+            onPress={() => navigation.navigate(routes.PasswordChanged)}
           />
         </View>
         <View style={styles.linkContainer}>

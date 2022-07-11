@@ -11,12 +11,13 @@ import themeColors from '../../config/themeColors';
 import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
+import routes from '../../navigation/routes';
 
-function CreateNewPassword(props) {
+function CreateNewPassword({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
-        <AppBackIcon onPress={() => console.log('super back')} />
+        <AppBackIcon onPress={() => navigation.goBack()} />
         <View style={styles.title}>
           <AppTitle>Create new password</AppTitle>
           <AppText>
@@ -52,7 +53,7 @@ function CreateNewPassword(props) {
           <AppLink
             title="Remember Password? Login"
             color={themeColors.primary}
-            onPress={() => console.log('Login')}
+            onPress={() => navigation.navigate(routes.Login)}
           />
         </View>
       </View>

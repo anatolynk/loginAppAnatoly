@@ -28,6 +28,7 @@ import {
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import routes from '../../navigation/routes';
 
 let refreshCount = 1;
 
@@ -101,7 +102,7 @@ function LoginScreen({ navigation }) {
           title="Forgot Password?"
           align="right"
           color={themeColors.darkGrey}
-          onPress={() => navigation.navigate('ForgotPassword')}
+          onPress={() => navigation.navigate(routes.ForgotPassword)}
         />
 
         <View style={styles.buttonContainer}>
@@ -111,7 +112,7 @@ function LoginScreen({ navigation }) {
           <AppLink
             title="Don’t have an account? Register Now"
             color={themeColors.primary}
-            onPress={() => navigation.navigate('Register')}
+            onPress={() => navigation.navigate(routes.Register)}
           />
         </View>
       </View>

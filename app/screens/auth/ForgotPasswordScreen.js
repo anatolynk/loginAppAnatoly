@@ -11,6 +11,7 @@ import themeColors from '../../config/themeColors';
 import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
+import routes from '../../navigation/routes';
 
 function ForgotPasswordScreen({ navigation }) {
   return (
@@ -31,14 +32,14 @@ function ForgotPasswordScreen({ navigation }) {
         <View style={styles.buttonContainer}>
           <AppButton
             title="Send Code"
-            onPress={() => navigation.navigate('OTPVerification')}
+            onPress={() => navigation.navigate(routes.OTPVerification)}
           />
         </View>
         <View style={styles.linkContainer}>
           <AppLink
             title="Remember Password? Login"
             color={themeColors.primary}
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => navigation.navigate(routes.Login)}
           />
         </View>
       </View>

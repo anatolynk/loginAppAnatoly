@@ -12,6 +12,7 @@ import AppButton from '../components/AppButton';
 import AppLink from '../components/AppLink';
 import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
+import routes from '../navigation/routes';
 
 function WelcomeScreen({ navigation }) {
   return (
@@ -29,12 +30,12 @@ function WelcomeScreen({ navigation }) {
         <View styles={styles.buttonsContainer}>
           <AppButton
             title="Login"
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => navigation.navigate(routes.Login)}
           />
           <AppButton
             title="Register"
             color="white"
-            onPress={() => navigation.navigate('Register')}
+            onPress={() => navigation.navigate(routes.Register)}
           />
         </View>
 

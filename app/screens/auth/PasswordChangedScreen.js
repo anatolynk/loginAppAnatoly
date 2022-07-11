@@ -11,6 +11,7 @@ import themeColors from '../../config/themeColors';
 import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
+import routes from '../../navigation/routes';
 
 function PasswordChangedScreen({ navigation }) {
   return (
@@ -30,7 +31,7 @@ function PasswordChangedScreen({ navigation }) {
           <View style={styles.buttonContainer}>
             <AppButton
               title="Back to Login"
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate(routes.Login)}
             />
           </View>
         </View>

@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View } from 'react-native';
 import AppIcon from '../components/AppIcon';
 import AppText from '../components/AppText';
+import AccountNavigator from './AccountNavigator';
+import FavoritesScreen from '../screens/app/FavoritesScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +17,7 @@ const Empty = () => (
 
 const AppNavigator = () => (
   <Tab.Navigator
+    initialRouteName="Favorites"
     screenOptions={{
       headerShown: false,
     }}>
@@ -29,7 +32,7 @@ const AppNavigator = () => (
     />
     <Tab.Screen
       name="Favorites"
-      component={Empty}
+      component={FavoritesScreen}
       options={{
         tabBarIcon: ({ size, color }) => (
           <AppIcon name="star" size={size} color={color} />
@@ -38,7 +41,7 @@ const AppNavigator = () => (
     />
     <Tab.Screen
       name="Account"
-      component={Empty}
+      component={AccountNavigator}
       options={{
         tabBarIcon: ({ size, color }) => (
           <AppIcon name="person-circle" size={size} color={color} />

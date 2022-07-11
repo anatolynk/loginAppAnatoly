@@ -14,8 +14,8 @@ const App = () => {
   // return <CreateNewPassword />;
   // return <ForgotPasswordScreen />;
   // return <RegisterScreen />;
-  return <LoginScreen />;
-  // return <WelcomeScreen />;
+  // return <LoginScreen />;
+  return <WelcomeScreen />;
 };
 
 export default App;

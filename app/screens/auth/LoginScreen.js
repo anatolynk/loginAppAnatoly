@@ -36,7 +36,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(4).max(30).label('Password'),
 });
 
-function LoginScreen(props) {
+function LoginScreen({ navigation }) {
   const {
     control,
     handleSubmit,
@@ -57,7 +57,7 @@ function LoginScreen(props) {
   return (
     <Screen>
       <View style={styles.container}>
-        <AppBackIcon onPress={() => console.log('super back')} />
+        <AppBackIcon onPress={() => navigation.goBack()} />
         <View style={styles.title}>
           <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
         </View>
@@ -101,7 +101,7 @@ function LoginScreen(props) {
           title="Forgot Password?"
           align="right"
           color={themeColors.darkGrey}
-          onPress={() => console.log('Forgot')}
+          onPress={() => navigation.navigate('ForgotPassword')}
         />
 
         <View style={styles.buttonContainer}>
@@ -111,7 +111,7 @@ function LoginScreen(props) {
           <AppLink
             title="Don’t have an account? Register Now"
             color={themeColors.primary}
-            onPress={() => console.log('Register Now')}
+            onPress={() => navigation.navigate('Register')}
           />
         </View>
       </View>

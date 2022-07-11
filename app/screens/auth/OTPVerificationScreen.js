@@ -13,11 +13,11 @@ import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import AppOTPInput from '../../components/AppOTPInput';
 
-function OTPVerificationScreen(props) {
+function OTPVerificationScreen({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
-        <AppBackIcon onPress={() => console.log('super back')} />
+        <AppBackIcon onPress={() => navigation.goBack()} />
         <View style={styles.title}>
           <AppTitle>OTP Verification</AppTitle>
           <AppText>
@@ -31,7 +31,10 @@ function OTPVerificationScreen(props) {
           <AppOTPInput placeholder="" />
         </View>
         <View style={styles.buttonContainer}>
-          <AppButton title="Verify" onPress={() => console.log('Verify')} />
+          <AppButton
+            title="Verify"
+            onPress={() => navigation.navigate('PasswordChanged')}
+          />
         </View>
         <View style={styles.linkContainer}>
           <AppLink

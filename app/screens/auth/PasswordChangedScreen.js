@@ -12,7 +12,7 @@ import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 
-function PasswordChangedScreen(props) {
+function PasswordChangedScreen({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
@@ -30,7 +30,7 @@ function PasswordChangedScreen(props) {
           <View style={styles.buttonContainer}>
             <AppButton
               title="Back to Login"
-              onPress={() => console.log('Back to Login')}
+              onPress={() => navigation.navigate('Login')}
             />
           </View>
         </View>

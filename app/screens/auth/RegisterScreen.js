@@ -12,11 +12,11 @@ import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 
-function RegisterScreen(props) {
+function RegisterScreen({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
-        <AppBackIcon onPress={() => console.log('super back')} />
+        <AppBackIcon onPress={() => navigation.goBack()} />
         <View style={styles.title}>
           <AppTitle>Hello! Register to get started</AppTitle>
         </View>
@@ -48,7 +48,7 @@ function RegisterScreen(props) {
           <AppLink
             title="Already have an account? Login Now"
             color={themeColors.primary}
-            onPress={() => console.log('Login Now')}
+            onPress={() => navigation.navigate('Login')}
           />
         </View>
       </View>

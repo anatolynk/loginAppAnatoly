@@ -12,11 +12,11 @@ import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 
-function ForgotPasswordScreen(props) {
+function ForgotPasswordScreen({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
-        <AppBackIcon onPress={() => console.log('super back')} />
+        <AppBackIcon onPress={() => navigation.goBack()} />
         <View style={styles.title}>
           <AppTitle>Forgot Password?</AppTitle>
           <AppText>
@@ -31,14 +31,14 @@ function ForgotPasswordScreen(props) {
         <View style={styles.buttonContainer}>
           <AppButton
             title="Send Code"
-            onPress={() => console.log('Send Code')}
+            onPress={() => navigation.navigate('OTPVerification')}
           />
         </View>
         <View style={styles.linkContainer}>
           <AppLink
             title="Remember Password? Login"
             color={themeColors.primary}
-            onPress={() => console.log('Login')}
+            onPress={() => navigation.navigate('Login')}
           />
         </View>
       </View>

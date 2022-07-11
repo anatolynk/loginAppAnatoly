@@ -8,6 +8,10 @@ import PasswordChangedScreen from './app/screens/auth/PasswordChangedScreen';
 import RegisterScreen from './app/screens/auth/RegisterScreen';
 import WelcomeScreen from './app/screens/WelcomeScreen';
 
+import { NavigationContainer } from '@react-navigation/native';
+
+import AuthNavigator from './app/navigation/AuthNavigator';
+
 const App = () => {
   // return <OTPVerificationScreen />;
   // return <PasswordChangedScreen />;
@@ -15,7 +19,12 @@ const App = () => {
   // return <ForgotPasswordScreen />;
   // return <RegisterScreen />;
   // return <LoginScreen />;
-  return <WelcomeScreen />;
+
+  return (
+    <NavigationContainer>
+      <AuthNavigator />
+    </NavigationContainer>
+  );
 };
 
 export default App;

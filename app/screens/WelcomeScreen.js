@@ -13,7 +13,7 @@ import AppLink from '../components/AppLink';
 import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
 
-function WelcomeScreen(props) {
+function WelcomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -27,11 +27,14 @@ function WelcomeScreen(props) {
           />
         </View>
         <View styles={styles.buttonsContainer}>
-          <AppButton title="Login" onPress={() => console.log('Login')} />
+          <AppButton
+            title="Login"
+            onPress={() => navigation.navigate('Login')}
+          />
           <AppButton
             title="Register"
             color="white"
-            onPress={() => console.log('Register')}
+            onPress={() => navigation.navigate('Register')}
           />
         </View>
 

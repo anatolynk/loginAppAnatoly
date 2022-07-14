@@ -16,18 +16,20 @@ import AppNavigator from './app/navigation/AppNavigator';
 import AccountScreen from './app/screens/app/AccountScreen';
 import AccountDetailsScreen from './app/screens/app/AccountDetailsScreen';
 
+import settings from './app/config/settings';
+
 const App = () => {
   // return <OTPVerificationScreen />;
   // return <PasswordChangedScreen />;
   // return <CreateNewPassword />;
   // return <ForgotPasswordScreen />;
   // return <RegisterScreen />;
-  // return <LoginScreen />;
+  // return <LoginScreen />;\
 
   return (
     <NavigationContainer theme={navigationTheme}>
-      {/* <AuthNavigator /> */}
-      <AppNavigator />
+      <AuthNavigator />
+      {/* <AppNavigator /> */}
     </NavigationContainer>
   );
 };

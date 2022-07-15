@@ -33,6 +33,7 @@ import routes from '../../navigation/routes';
 import auth from '@react-native-firebase/auth';
 import AppErrorMessage from '../../components/AppErrorMessage';
 import AuthContext from '../../auth/context';
+import authStorage from '../../auth/authStorage';
 
 let refreshCount = 1;
 
@@ -58,35 +59,40 @@ function LoginScreen({ navigation }) {
   const [errorMessage, setErrorMessage] = useState('');
   const userAuth = useContext(AuthContext);
 
-  const login = async (email, password) => {
-    try {
-      const userCredentials = await auth().signInWithEmailAndPassword(
-        email,
-        password,
-      );
-      setLoginFailed(false);
-      setErrorMessage('');
-
-      userAuth.setUser(userCredentials.user);
-      console.log(userCredentials.user);
-    } catch (error) {
-      setLoginFailed(true);
-      setErrorMessage(error.message);
-      return null;
-    }
+  const login = (email, password) => {
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const userData = userCredentials.user.toJSON();
+        setLoginFailed(false);
+        setErrorMessage('');
+        userAuth.setUser(userData);
+        authStorage.setToken(userData.refreshToken);
+        //
+        // console.log(userData);
+        // console.log(userData.email);
+        // console.log(userData.uid);
+        // console.log(userData.refreshToken);
+      })
+      .catch(error => {
+        setLoginFailed(true);
+        setErrorMessage(error.message);
+      });
   };
 
+  const getUserToken = () => {
+    auth()
+      .getIdToken.then(result => console.log(result))
+      .catch(error => console.log(error.message));
+  };
   const onLoginSubmit = ({ email, password }) => {
     login(email, password);
+    // getUserToken();
   };
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(credentialsUser => {
-      if (credentialsUser) {
-        // AuthContext.setUser(user);
-        // userAuth.setUser(user);
-        // console.log(user.getIdToken());
-      }
+    const unsubscribe = auth().onAuthStateChanged(userCredentials => {
+      // console.log(userCredentials.user);
     });
 
     return () => {

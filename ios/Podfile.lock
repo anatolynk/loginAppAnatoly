@@ -424,6 +424,8 @@ PODS:
     - Firebase/Auth (= 9.2.0)
     - React-Core
     - RNFBApp
+  - RNKeychain (8.1.1):
+    - React-Core
   - RNScreens (3.15.0):
     - React-Core
     - React-RCTImage
@@ -470,6 +472,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAppCheck (from `../node_modules/@react-native-firebase/app-check`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -562,6 +565,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app-check"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   Yoga:
@@ -618,6 +623,7 @@ SPEC CHECKSUMS:
   RNFBApp: e3e4af6906a891d46af60340b4313b63eb082de9
   RNFBAppCheck: 7b329a2ce76f1a4d519351ce6f5fbed8679d129d
   RNFBAuth: dca6dec4a91cc3aa5c9cf8df7c97cc61d0395245
+  RNKeychain: ff836453cba46938e0e9e4c22e43d43fa2c90333
   RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7
   Yoga: 7ab6e3ee4ce47d7b789d1cb520163833e515f452
 

@@ -68,12 +68,6 @@ function LoginScreen({ navigation }) {
         setErrorMessage('');
         userAuth.setUser(userData);
         authStorage.setToken(userData.refreshToken);
-
-        //
-        // console.log(userData);
-        // console.log(userData.email);
-        // console.log(userData.uid);
-        // console.log(userData.refreshToken);
       })
       .catch(error => {
         setLoginFailed(true);
@@ -84,16 +78,6 @@ function LoginScreen({ navigation }) {
   const onLoginSubmit = ({ email, password }) => {
     login(email, password);
   };
-
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(userCredentials => {
-      // console.log(userCredentials.user);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   console.log('refreshCount: ', refreshCount++);
   return (

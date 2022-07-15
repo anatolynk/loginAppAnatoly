@@ -27,8 +27,8 @@ const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [isReady, setIsReady] = useState(false);
 
-  function onAuthStateChanged(user) {
-    setUser(user);
+  function onAuthStateChanged(userCredentials) {
+    setUser(userCredentials);
     if (initializing) setInitializing(false);
   }
 
@@ -53,9 +53,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <NavigationContainer
-        theme={navigationTheme}
-        onReady={() => hideBootSplash()}>
+      <NavigationContainer theme={navigationTheme}>
         {user ? <AppNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </AuthContext.Provider>

@@ -14,6 +14,8 @@ import AppBackIcon from '../../components/AppBackIcon';
 import routes from '../../navigation/routes';
 
 function RegisterScreen({ navigation }) {
+  const handleRegister = () => {};
+
   return (
     <Screen>
       <View style={styles.container}>
@@ -43,7 +45,7 @@ function RegisterScreen({ navigation }) {
         </View>
 
         <View style={styles.buttonContainer}>
-          <AppButton title="Register" onPress={() => console.log('Register')} />
+          <AppButton title="Register" onPress={handleRegister} />
         </View>
         <View style={styles.linkContainer}>
           <AppLink

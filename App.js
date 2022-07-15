@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import CreateNewPassword from './app/screens/auth/CreateNewPassword';
 import ForgotPasswordScreen from './app/screens/auth/ForgotPasswordScreen';
@@ -15,8 +15,6 @@ import navigationTheme from './app/navigation/navigationTheme';
 import AppNavigator from './app/navigation/AppNavigator';
 import AccountScreen from './app/screens/app/AccountScreen';
 import AccountDetailsScreen from './app/screens/app/AccountDetailsScreen';
-
-import settings from './app/config/settings';
 
 const App = () => {
   // return <OTPVerificationScreen />;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   StatusBar,
@@ -30,6 +30,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import routes from '../../navigation/routes';
 
+import auth from '@react-native-firebase/auth';
+import AppErrorMessage from '../../components/AppErrorMessage';
+
 let refreshCount = 1;
 
 const validationSchema = Yup.object().shape({
@@ -50,8 +53,22 @@ function LoginScreen({ navigation }) {
     },
   });
 
-  const onLoginSubmit = data => {
-    console.log('Login form data: ', data);
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const login = async (email, password) => {
+    try {
+      const user = await auth().signInWithEmailAndPassword(email, password);
+      setLoginFailed(false);
+      setErrorMessage('');
+    } catch (error) {
+      setLoginFailed(true);
+      setErrorMessage(error.message);
+    }
+  };
+
+  const onLoginSubmit = ({ email, password }) => {
+    login(email, password);
   };
 
   console.log('refreshCount: ', refreshCount++);
@@ -108,6 +125,7 @@ function LoginScreen({ navigation }) {
         <View style={styles.buttonContainer}>
           <AppButton title="Login" onPress={handleSubmit(onLoginSubmit)} />
         </View>
+        <AppErrorMessage visible={loginFailed}>{errorMessage}</AppErrorMessage>
         <View style={styles.linkContainer}>
           <AppLink
             title="Don’t have an account? Register Now"

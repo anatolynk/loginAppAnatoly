@@ -12,16 +12,26 @@ import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import routes from '../../navigation/routes';
+
+import auth from '@react-native-firebase/auth';
 import AuthContext from '../../auth/context';
 
 function AccountScreen({ navigation }) {
   const userAuth = useContext(AuthContext);
-  console.log('====================================');
-  console.log('user data: ', userAuth.user);
-  console.log('====================================');
+
+  const logOut = () => {
+    auth()
+      .signOut()
+      .then(result => {
+        return userAuth.setUser(null);
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
 
   const handleLogOut = () => {
-    //
+    logOut();
   };
 
   return (

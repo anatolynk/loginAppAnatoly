@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import AppButton from '../../components/AppButton';
 import AppLink from '../../components/AppLink';
@@ -12,14 +12,24 @@ import AppIcon from '../../components/AppIcon';
 import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import routes from '../../navigation/routes';
+import AuthContext from '../../auth/context';
 
 function AccountScreen({ navigation }) {
+  const userAuth = useContext(AuthContext);
+  console.log('====================================');
+  console.log('user data: ', userAuth.user);
+  console.log('====================================');
+
+  const handleLogOut = () => {
+    //
+  };
+
   return (
     <Screen>
       <View style={styles.container}>
         <View style={styles.title}>
           <AppTitle>My Account</AppTitle>
-          <AppText>Details</AppText>
+          <AppText>Email: </AppText>
         </View>
 
         <AppLink
@@ -36,7 +46,7 @@ function AccountScreen({ navigation }) {
         </View>
 
         <View style={styles.buttonContainer}>
-          <AppButton title="Log Out" onPress={() => console.log('Log Out')} />
+          <AppButton title="Log Out" onPress={handleLogOut} />
         </View>
       </View>
     </Screen>

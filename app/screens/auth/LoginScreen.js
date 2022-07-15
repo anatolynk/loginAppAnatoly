@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   StatusBar,
@@ -32,6 +32,7 @@ import routes from '../../navigation/routes';
 
 import auth from '@react-native-firebase/auth';
 import AppErrorMessage from '../../components/AppErrorMessage';
+import AuthContext from '../../auth/context';
 
 let refreshCount = 1;
 
@@ -55,21 +56,43 @@ function LoginScreen({ navigation }) {
 
   const [loginFailed, setLoginFailed] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const userAuth = useContext(AuthContext);
 
   const login = async (email, password) => {
     try {
-      const user = await auth().signInWithEmailAndPassword(email, password);
+      const userCredentials = await auth().signInWithEmailAndPassword(
+        email,
+        password,
+      );
       setLoginFailed(false);
       setErrorMessage('');
+
+      userAuth.setUser(userCredentials.user);
+      console.log(userCredentials.user);
     } catch (error) {
       setLoginFailed(true);
       setErrorMessage(error.message);
+      return null;
     }
   };
 
   const onLoginSubmit = ({ email, password }) => {
     login(email, password);
   };
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged(credentialsUser => {
+      if (credentialsUser) {
+        // AuthContext.setUser(user);
+        // userAuth.setUser(user);
+        // console.log(user.getIdToken());
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   console.log('refreshCount: ', refreshCount++);
   return (

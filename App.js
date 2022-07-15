@@ -15,8 +15,11 @@ import navigationTheme from './app/navigation/navigationTheme';
 import AppNavigator from './app/navigation/AppNavigator';
 import AccountScreen from './app/screens/app/AccountScreen';
 import AccountDetailsScreen from './app/screens/app/AccountDetailsScreen';
+import AuthContext from './app/auth/context';
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
   // return <OTPVerificationScreen />;
   // return <PasswordChangedScreen />;
   // return <CreateNewPassword />;
@@ -25,10 +28,11 @@ const App = () => {
   // return <LoginScreen />;\
 
   return (
-    <NavigationContainer theme={navigationTheme}>
-      <AuthNavigator />
-      {/* <AppNavigator /> */}
-    </NavigationContainer>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <NavigationContainer theme={navigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 };
 

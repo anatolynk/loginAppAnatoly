@@ -19,10 +19,13 @@ import AccountDetailsScreen from './app/screens/app/AccountDetailsScreen';
 import auth from '@react-native-firebase/auth';
 import AuthContext from './app/auth/context';
 
+import RNBootSplash from 'react-native-bootsplash';
+import AppLoading from './app/components/AppLoading';
+
 const App = () => {
   const [user, setUser] = useState(null);
-
   const [initializing, setInitializing] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   function onAuthStateChanged(user) {
     setUser(user);
@@ -36,9 +39,23 @@ const App = () => {
 
   if (initializing) return null;
 
+  const hideBootSplash = async () => {
+    await RNBootSplash.hide({ fade: true });
+  };
+
+  if (!isReady)
+    return (
+      <AppLoading
+        onStart={() => hideBootSplash()}
+        onFinish={() => setIsReady(true)}
+      />
+    );
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <NavigationContainer theme={navigationTheme}>
+      <NavigationContainer
+        theme={navigationTheme}
+        onReady={() => hideBootSplash()}>
         {user ? <AppNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </AuthContext.Provider>

@@ -1,4 +1,5 @@
 #import <Firebase.h>
+#import "RNBootSplash.h"
 #import "AppDelegate.h"
 
 
@@ -65,6 +66,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  // React Natibe Boot Splash Screen Init
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
   return YES;
 }
 

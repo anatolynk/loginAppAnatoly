@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import AppButton from '../../components/AppButton';
 import AppLink from '../../components/AppLink';
@@ -13,8 +13,62 @@ import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import routes from '../../navigation/routes';
 
+import auth from '@react-native-firebase/auth';
+
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
+import AuthContext from '../../auth/context';
+import AppErrorMessage from '../../components/AppErrorMessage';
+import authStorage from '../../auth/authStorage';
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label('Email'),
+  password: Yup.string().required().min(6).max(30).label('Password'),
+});
+
 function RegisterScreen({ navigation }) {
-  const handleRegister = () => {};
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+  const [registerFailed, setRegisterFailed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const userAuth = useContext(AuthContext);
+
+  const register = (email, password) => {
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const userData = userCredentials.user.toJSON();
+        setRegisterFailed(false);
+        setErrorMessage('');
+        userAuth.setUser(userData);
+        authStorage.setToken(userData.refreshToken);
+      })
+      .catch(error => {
+        setErrorMessage(error.message);
+        setRegisterFailed(true);
+      });
+  };
+
+  const onRegister = ({ email, password }) => {
+    register(email, password);
+  };
 
   return (
     <Screen>
@@ -24,29 +78,49 @@ function RegisterScreen({ navigation }) {
           <AppTitle>Hello! Register to get started</AppTitle>
         </View>
         <View style={styles.inputContainer}>
-          <AppTextInput placeholder="Name" />
-          <AppTextInput placeholder="Email" />
-          <AppTextInput
-            placeholder="Password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            textContentType="password"
-            name="password"
-            secureTextEntry={true}
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            )}
+            name="email"
           />
-          <AppTextInput
-            placeholder="Confirm password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            textContentType="password"
+          {errors.email && <AppText>{errors.email.message}</AppText>}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Enter your password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="password"
+                secureTextEntry={true}
+              />
+            )}
             name="password"
-            secureTextEntry={true}
           />
+          {errors.password && <AppText>{errors.password.message}</AppText>}
         </View>
 
         <View style={styles.buttonContainer}>
-          <AppButton title="Register" onPress={handleRegister} />
+          <AppButton title="Register" onPress={handleSubmit(onRegister)} />
         </View>
+        <AppErrorMessage visible={registerFailed}>
+          {errorMessage}
+        </AppErrorMessage>
+
         <View style={styles.linkContainer}>
           <AppLink
             title="Already have an account? Login Now"

@@ -15,6 +15,7 @@ import routes from '../../navigation/routes';
 
 import auth from '@react-native-firebase/auth';
 import AuthContext from '../../auth/context';
+import authStorage from '../../auth/authStorage';
 
 function AccountScreen({ navigation }) {
   const userAuth = useContext(AuthContext);
@@ -23,7 +24,8 @@ function AccountScreen({ navigation }) {
     auth()
       .signOut()
       .then(result => {
-        return userAuth.setUser(null);
+        userAuth.setUser(null);
+        authStorage.removeToken();
       })
       .catch(error => {
         console.log(error.message);

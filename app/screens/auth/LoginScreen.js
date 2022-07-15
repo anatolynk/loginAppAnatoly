@@ -68,6 +68,7 @@ function LoginScreen({ navigation }) {
         setErrorMessage('');
         userAuth.setUser(userData);
         authStorage.setToken(userData.refreshToken);
+
         //
         // console.log(userData);
         // console.log(userData.email);
@@ -80,14 +81,8 @@ function LoginScreen({ navigation }) {
       });
   };
 
-  const getUserToken = () => {
-    auth()
-      .getIdToken.then(result => console.log(result))
-      .catch(error => console.log(error.message));
-  };
   const onLoginSubmit = ({ email, password }) => {
     login(email, password);
-    // getUserToken();
   };
 
   useEffect(() => {

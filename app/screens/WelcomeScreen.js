@@ -14,7 +14,19 @@ import Screen from '../components/Screen';
 import themeColors from '../config/themeColors';
 import routes from '../navigation/routes';
 
+import auth from '@react-native-firebase/auth';
+
 function WelcomeScreen({ navigation }) {
+  const loginAsGuest = () => {
+    auth()
+      .signInAnonymously()
+      .then()
+      .catch(error => console.log(error.message));
+  };
+
+  const handleLoginAsGuest = () => {
+    loginAsGuest();
+  };
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -43,7 +55,7 @@ function WelcomeScreen({ navigation }) {
           <AppLink
             title="Continue as a guest"
             color={themeColors.primary}
-            onPress={() => console.log('Guest Link')}
+            onPress={handleLoginAsGuest}
           />
         </View>
       </ImageBackground>

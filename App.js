@@ -15,17 +15,26 @@ import navigationTheme from './app/navigation/navigationTheme';
 import AppNavigator from './app/navigation/AppNavigator';
 import AccountScreen from './app/screens/app/AccountScreen';
 import AccountDetailsScreen from './app/screens/app/AccountDetailsScreen';
+
+import auth from '@react-native-firebase/auth';
 import AuthContext from './app/auth/context';
 
 const App = () => {
   const [user, setUser] = useState(null);
 
-  // return <OTPVerificationScreen />;
-  // return <PasswordChangedScreen />;
-  // return <CreateNewPassword />;
-  // return <ForgotPasswordScreen />;
-  // return <RegisterScreen />;
-  // return <LoginScreen />;\
+  const [initializing, setInitializing] = useState(true);
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  if (initializing) return null;
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

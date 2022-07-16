@@ -28,6 +28,7 @@ import * as Yup from 'yup';
 import AuthContext from '../../auth/context';
 import AppErrorMessage from '../../components/AppErrorMessage';
 import authStorage from '../../auth/authStorage';
+import AppActivityIndicator from '../../components/AppActivityIndicator';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('Email'),
@@ -48,9 +49,12 @@ function RegisterScreen({ navigation }) {
   });
   const [registerFailed, setRegisterFailed] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const userAuth = useContext(AuthContext);
 
   const register = (email, password) => {
+    setIsLoading(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
@@ -59,10 +63,12 @@ function RegisterScreen({ navigation }) {
         setErrorMessage('');
         userAuth.setUser(userData);
         authStorage.setToken(userData.refreshToken);
+        setIsLoading(false);
       })
       .catch(error => {
         setErrorMessage(error.message);
         setRegisterFailed(true);
+        setIsLoading(false);
       });
   };
 
@@ -71,65 +77,68 @@ function RegisterScreen({ navigation }) {
   };
 
   return (
-    <Screen>
-      <View style={styles.container}>
-        <AppBackIcon onPress={() => navigation.goBack()} />
-        <View style={styles.title}>
-          <AppTitle>Hello! Register to get started</AppTitle>
-        </View>
-        <View style={styles.inputContainer}>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AppTextInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Enter your email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            )}
-            name="email"
-          />
-          {errors.email && <AppText>{errors.email.message}</AppText>}
+    <>
+      <AppActivityIndicator visible={isLoading} />
+      <Screen>
+        <View style={styles.container}>
+          <AppBackIcon onPress={() => navigation.goBack()} />
+          <View style={styles.title}>
+            <AppTitle>Hello! Register to get started</AppTitle>
+          </View>
+          <View style={styles.inputContainer}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              )}
+              name="email"
+            />
+            {errors.email && <AppText>{errors.email.message}</AppText>}
 
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AppTextInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Enter your password"
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType="password"
-                secureTextEntry={true}
-              />
-            )}
-            name="password"
-          />
-          {errors.password && <AppText>{errors.password.message}</AppText>}
-        </View>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your password"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="password"
+                  secureTextEntry={true}
+                />
+              )}
+              name="password"
+            />
+            {errors.password && <AppText>{errors.password.message}</AppText>}
+          </View>
 
-        <View style={styles.buttonContainer}>
-          <AppButton title="Register" onPress={handleSubmit(onRegister)} />
-        </View>
-        <AppErrorMessage visible={registerFailed}>
-          {errorMessage}
-        </AppErrorMessage>
+          <View style={styles.buttonContainer}>
+            <AppButton title="Register" onPress={handleSubmit(onRegister)} />
+          </View>
+          <AppErrorMessage visible={registerFailed}>
+            {errorMessage}
+          </AppErrorMessage>
 
-        <View style={styles.linkContainer}>
-          <AppLink
-            title="Already have an account? Login Now"
-            color={themeColors.primary}
-            onPress={() => navigation.navigate(routes.Login)}
-          />
+          <View style={styles.linkContainer}>
+            <AppLink
+              title="Already have an account? Login Now"
+              color={themeColors.primary}
+              onPress={() => navigation.navigate(routes.Login)}
+            />
+          </View>
         </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 }
 

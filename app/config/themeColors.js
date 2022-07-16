@@ -13,6 +13,7 @@ export default {
   backgroundInput: '#F7F8F9',
   red: '#E10A17',
   lightRed: '#EC727A',
+  lightGrey: '#F3F3F6',
 
   // medium: '#6e6969',
 

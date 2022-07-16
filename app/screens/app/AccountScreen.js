@@ -18,11 +18,14 @@ import AuthContext from '../../auth/context';
 import authStorage from '../../auth/authStorage';
 import AppActivityIndicator from '../../components/AppActivityIndicator';
 import AppErrorMessage from '../../components/AppErrorMessage';
+import ListItem from '../../components/ListItem';
 
 function AccountScreen({ navigation }) {
   const userAuth = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const user = userAuth.user;
 
   const logOut = () => {
     setIsLoading(true);
@@ -48,27 +51,40 @@ function AccountScreen({ navigation }) {
       <AppActivityIndicator visible={isLoading} />
 
       <Screen>
+        <AppTitle style={styles.appTitle}>My Account</AppTitle>
         <View style={styles.container}>
           <View style={styles.title}>
-            <AppTitle>My Account</AppTitle>
-            <AppText>Email: </AppText>
+            <ListItem
+              title={user?.name || 'Name'}
+              subTitle={user?.email}
+              onPress={() => navigation.navigate('AccountDetailsScreen')}
+            />
           </View>
 
-          <AppLink
-            title="My Profile"
-            align="left"
-            color={themeColors.primary}
+          <ListItem
+            title="My Details"
+            IconComponent={
+              <AppIcon name="list-circle" size={30} color={themeColors.grey} />
+            }
             onPress={() => navigation.navigate('AccountDetailsScreen')}
           />
-
           <View style={styles.inputContainer}>
-            <AppText>My Messages</AppText>
-            <AppText>My Notifications</AppText>
-            <AppText>My Settings</AppText>
+            <ListItem
+              title="My Messages"
+              IconComponent={
+                <AppIcon name="mail" size={30} color={themeColors.grey} />
+              }
+            />
+            <ListItem
+              title="My Settings"
+              IconComponent={
+                <AppIcon name="settings" size={30} color={themeColors.grey} />
+              }
+            />
           </View>
 
           <View style={styles.buttonContainer}>
-            <AppButton title="Log Out" onPress={handleLogOut} />
+            <AppButton title="Log Out" color="white" onPress={handleLogOut} />
           </View>
           <AppErrorMessage visible={errorMessage}>
             {errorMessage}
@@ -82,6 +98,10 @@ function AccountScreen({ navigation }) {
 export default AccountScreen;
 
 const styles = StyleSheet.create({
+  appTitle: {
+    paddingTop: 12,
+    paddingLeft: 12,
+  },
   container: {
     flex: 1,
   },

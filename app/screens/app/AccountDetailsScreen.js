@@ -19,7 +19,7 @@ function AccountDetails({ navigation }) {
       <View style={styles.container}>
         <AppBackIcon onPress={() => navigation.goBack()} />
         <View style={styles.title}>
-          <AppTitle>Edit Profile:</AppTitle>
+          <AppTitle>My Details:</AppTitle>
         </View>
         <View style={styles.inputContainer}>
           <AppTextInput placeholder="Name" />

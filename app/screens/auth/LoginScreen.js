@@ -34,6 +34,7 @@ import auth from '@react-native-firebase/auth';
 import AppErrorMessage from '../../components/AppErrorMessage';
 import AuthContext from '../../auth/context';
 import authStorage from '../../auth/authStorage';
+import AppActivityIndicator from '../../components/AppActivityIndicator';
 
 let refreshCount = 1;
 
@@ -57,9 +58,12 @@ function LoginScreen({ navigation }) {
 
   const [loginFailed, setLoginFailed] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
   const userAuth = useContext(AuthContext);
 
   const login = (email, password) => {
+    setIsLoading(true);
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(userCredentials => {
@@ -68,10 +72,12 @@ function LoginScreen({ navigation }) {
         setErrorMessage('');
         userAuth.setUser(userData);
         authStorage.setToken(userData.refreshToken);
+        setIsLoading(false);
       })
       .catch(error => {
         setLoginFailed(true);
         setErrorMessage(error.message);
+        setIsLoading(false);
       });
   };
 
@@ -81,68 +87,73 @@ function LoginScreen({ navigation }) {
 
   console.log('refreshCount: ', refreshCount++);
   return (
-    <Screen>
-      <View style={styles.container}>
-        <AppBackIcon onPress={() => navigation.goBack()} />
-        <View style={styles.title}>
-          <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
-        </View>
-        <View style={styles.inputContainer}>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AppTextInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Enter your email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            )}
-            name="email"
-          />
-          {errors.email && <AppText>{errors.email.message}</AppText>}
+    <>
+      <AppActivityIndicator visible={isLoading} />
+      <Screen>
+        <View style={styles.container}>
+          <AppBackIcon onPress={() => navigation.goBack()} />
+          <View style={styles.title}>
+            <AppTitle>Welcome back! Glad to see you, Again!</AppTitle>
+          </View>
+          <View style={styles.inputContainer}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              )}
+              name="email"
+            />
+            {errors.email && <AppText>{errors.email.message}</AppText>}
 
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AppTextInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Enter your password"
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType="password"
-                secureTextEntry={true}
-              />
-            )}
-            name="password"
-          />
-          {errors.password && <AppText>{errors.password.message}</AppText>}
-        </View>
-        <AppLink
-          title="Forgot Password?"
-          align="right"
-          color={themeColors.darkGrey}
-          onPress={() => navigation.navigate(routes.ForgotPassword)}
-        />
-
-        <View style={styles.buttonContainer}>
-          <AppButton title="Login" onPress={handleSubmit(onLoginSubmit)} />
-        </View>
-        <AppErrorMessage visible={loginFailed}>{errorMessage}</AppErrorMessage>
-        <View style={styles.linkContainer}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your password"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="password"
+                  secureTextEntry={true}
+                />
+              )}
+              name="password"
+            />
+            {errors.password && <AppText>{errors.password.message}</AppText>}
+          </View>
           <AppLink
-            title="Don’t have an account? Register Now"
-            color={themeColors.primary}
-            onPress={() => navigation.navigate(routes.Register)}
+            title="Forgot Password?"
+            align="right"
+            color={themeColors.darkGrey}
+            onPress={() => navigation.navigate(routes.ForgotPassword)}
           />
+
+          <View style={styles.buttonContainer}>
+            <AppButton title="Login" onPress={handleSubmit(onLoginSubmit)} />
+          </View>
+          <AppErrorMessage visible={loginFailed}>
+            {errorMessage}
+          </AppErrorMessage>
+          <View style={styles.linkContainer}>
+            <AppLink
+              title="Don’t have an account? Register Now"
+              color={themeColors.primary}
+              onPress={() => navigation.navigate(routes.Register)}
+            />
+          </View>
         </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 }
 

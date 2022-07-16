@@ -21,6 +21,7 @@ import AuthContext from './app/auth/context';
 
 import RNBootSplash from 'react-native-bootsplash';
 import AppLoading from './app/components/AppLoading';
+import AppActivityIndicator from './app/components/AppActivityIndicator';
 
 const App = () => {
   const [user, setUser] = useState(null);

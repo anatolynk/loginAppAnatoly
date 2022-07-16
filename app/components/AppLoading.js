@@ -2,13 +2,13 @@ import AnimatedLottieView from 'lottie-react-native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-function AppLoading({ onStart, onFinish, ...otherProps }) {
+function AppLoading({ onStart, onFinish, loop = false, ...otherProps }) {
   return (
     <View style={styles.container}>
       <AnimatedLottieView
         onLayout={onStart}
         autoPlay
-        loop={false}
+        loop={loop}
         style={styles.animation}
         onAnimationFinish={onFinish}
         source={require('../assets/animations/loader-circle-color.json')}

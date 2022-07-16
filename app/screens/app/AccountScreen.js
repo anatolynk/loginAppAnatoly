@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import AppButton from '../../components/AppButton';
 import AppLink from '../../components/AppLink';
@@ -16,19 +16,26 @@ import routes from '../../navigation/routes';
 import auth from '@react-native-firebase/auth';
 import AuthContext from '../../auth/context';
 import authStorage from '../../auth/authStorage';
+import AppActivityIndicator from '../../components/AppActivityIndicator';
+import AppErrorMessage from '../../components/AppErrorMessage';
 
 function AccountScreen({ navigation }) {
   const userAuth = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const logOut = () => {
+    setIsLoading(true);
     auth()
       .signOut()
       .then(result => {
         userAuth.setUser(null);
         authStorage.removeToken();
+        setIsLoading(false);
       })
       .catch(error => {
-        console.log(error.message);
+        setErrorMessage(error.message);
+        setIsLoading(false);
       });
   };
 
@@ -37,31 +44,38 @@ function AccountScreen({ navigation }) {
   };
 
   return (
-    <Screen>
-      <View style={styles.container}>
-        <View style={styles.title}>
-          <AppTitle>My Account</AppTitle>
-          <AppText>Email: </AppText>
-        </View>
+    <>
+      <AppActivityIndicator visible={isLoading} />
 
-        <AppLink
-          title="My Profile"
-          align="left"
-          color={themeColors.primary}
-          onPress={() => navigation.navigate('AccountDetailsScreen')}
-        />
+      <Screen>
+        <View style={styles.container}>
+          <View style={styles.title}>
+            <AppTitle>My Account</AppTitle>
+            <AppText>Email: </AppText>
+          </View>
 
-        <View style={styles.inputContainer}>
-          <AppText>My Messages</AppText>
-          <AppText>My Notifications</AppText>
-          <AppText>My Settings</AppText>
-        </View>
+          <AppLink
+            title="My Profile"
+            align="left"
+            color={themeColors.primary}
+            onPress={() => navigation.navigate('AccountDetailsScreen')}
+          />
 
-        <View style={styles.buttonContainer}>
-          <AppButton title="Log Out" onPress={handleLogOut} />
+          <View style={styles.inputContainer}>
+            <AppText>My Messages</AppText>
+            <AppText>My Notifications</AppText>
+            <AppText>My Settings</AppText>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <AppButton title="Log Out" onPress={handleLogOut} />
+          </View>
+          <AppErrorMessage visible={errorMessage}>
+            {errorMessage}
+          </AppErrorMessage>
         </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 }
 

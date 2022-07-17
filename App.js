@@ -3,7 +3,7 @@ import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import ForgotPasswordScreen from './app/screens/auth/ForgotPasswordScreen';
 import LoginScreen from './app/screens/auth/LoginScreen';
 import OTPVerificationScreen from './app/screens/auth/OTPVerificationScreen';
-import PasswordChangedScreen from './app/screens/auth/PasswordChangedScreen';
+import PasswordChangedScreen from './app/screens/app/PasswordChangedScreen';
 import RegisterScreen from './app/screens/auth/RegisterScreen';
 import WelcomeScreen from './app/screens/WelcomeScreen';
 

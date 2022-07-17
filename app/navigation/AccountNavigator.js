@@ -3,7 +3,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AccountScreen from '../screens/app/AccountScreen';
 import AccountDetailsScreen from '../screens/app/AccountDetailsScreen';
-import CreateNewPasswordScreen from '../screens/auth/CreateNewPasswordScreen';
+import CreateNewPasswordScreen from '../screens/app/CreateNewPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 

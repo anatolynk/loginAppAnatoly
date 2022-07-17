@@ -6,7 +6,7 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import OTPVerificationScreen from '../screens/auth/OTPVerificationScreen';
-import PasswordChangedScreen from '../screens/auth/PasswordChangedScreen';
+import PasswordChangedScreen from '../screens/app/PasswordChangedScreen';
 
 const Stack = createNativeStackNavigator();
 

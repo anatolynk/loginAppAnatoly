@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AccountScreen from '../screens/app/AccountScreen';
 import AccountDetailsScreen from '../screens/app/AccountDetailsScreen';
 import CreateNewPasswordScreen from '../screens/app/CreateNewPasswordScreen';
+import PasswordChangedScreen from '../screens/app/PasswordChangedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ const AccountNavigator = () => (
       name="CreateNewPassword"
       component={CreateNewPasswordScreen}
     />
+    <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
   </Stack.Navigator>
 );
 

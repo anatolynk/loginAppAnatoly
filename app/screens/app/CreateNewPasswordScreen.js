@@ -71,6 +71,7 @@ function CreateNewPasswordScreen({ navigation }) {
         setIsLoading(false);
         setSuccessMessage('Your Password successfully updated');
         userAuth.setUser(auth().currentUser.toJSON());
+        navigation.replace(routes.PasswordChanged);
       })
       .catch(error => {
         setRequestFailed(true);

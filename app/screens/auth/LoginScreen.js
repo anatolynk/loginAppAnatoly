@@ -29,14 +29,12 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import routes from '../../navigation/routes';
+import authStorage from '../../auth/authStorage';
 
 import auth from '@react-native-firebase/auth';
 import AppErrorMessage from '../../components/AppErrorMessage';
 import AuthContext from '../../auth/context';
-import authStorage from '../../auth/authStorage';
 import AppActivityIndicator from '../../components/AppActivityIndicator';
-
-let refreshCount = 1;
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('Email'),
@@ -68,10 +66,10 @@ function LoginScreen({ navigation }) {
       .signInWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const userData = userCredentials.user.toJSON();
-        setLoginFailed(false);
-        setErrorMessage('');
         userAuth.setUser(userData);
         authStorage.setToken(userData.refreshToken);
+        setLoginFailed(false);
+        setErrorMessage('');
         setIsLoading(false);
       })
       .catch(error => {
@@ -85,7 +83,9 @@ function LoginScreen({ navigation }) {
     login(email, password);
   };
 
+  let refreshCount = 1;
   console.log('refreshCount: ', refreshCount++);
+
   return (
     <>
       <AppActivityIndicator visible={isLoading} />

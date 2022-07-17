@@ -12,8 +12,12 @@ export default {
   green: '#18C07A',
   backgroundInput: '#F7F8F9',
   red: '#E10A17',
+
   lightRed: '#EC727A',
   lightGrey: '#F3F3F6',
+
+  lightGreen: '#42D490',
+  darkGreen: '#32612E',
 
   // medium: '#6e6969',
 

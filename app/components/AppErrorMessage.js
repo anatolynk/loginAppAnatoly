@@ -3,10 +3,10 @@ import { StyleSheet, View } from 'react-native';
 import themeColors from '../config/themeColors';
 import AppText from './AppText';
 
-function AppErrorMessage({ visible, children }) {
+function AppErrorMessage({ visible, color = themeColors.lightRed, children }) {
   if (children === undefined || !visible) return;
   return (
-    <AppText style={styles.container} color={themeColors.lightRed}>
+    <AppText style={styles.container} color={color}>
       {children}
     </AppText>
   );

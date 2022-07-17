@@ -25,6 +25,7 @@ function AccountScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // const user = auth().currentUser.toJSON();
   const user = userAuth.user;
 
   const logOut = () => {
@@ -49,17 +50,14 @@ function AccountScreen({ navigation }) {
   return (
     <>
       <AppActivityIndicator visible={isLoading} />
-
       <Screen>
         <AppTitle style={styles.appTitle}>My Account</AppTitle>
         <View style={styles.container}>
-          <View style={styles.title}>
-            <ListItem
-              title={user?.name || 'Name'}
-              subTitle={user?.email}
-              onPress={() => navigation.navigate('AccountDetailsScreen')}
-            />
-          </View>
+          <ListItem
+            title={user?.displayName || 'Name'}
+            subTitle={user?.email}
+            onPress={() => navigation.navigate('AccountDetailsScreen')}
+          />
 
           <ListItem
             title="My Details"
@@ -99,7 +97,7 @@ export default AccountScreen;
 
 const styles = StyleSheet.create({
   appTitle: {
-    paddingTop: 12,
+    marginTop: 12,
     paddingLeft: 12,
   },
   container: {
@@ -113,8 +111,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     marginBottom: 26,
-  },
-  title: {
-    marginBottom: 32,
   },
 });

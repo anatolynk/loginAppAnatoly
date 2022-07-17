@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import AppButton from '../../components/AppButton';
 import AppLink from '../../components/AppLink';
@@ -13,40 +13,111 @@ import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import routes from '../../navigation/routes';
 
-function AccountDetails({ navigation }) {
-  return (
-    <Screen>
-      <View style={styles.container}>
-        <AppBackIcon onPress={() => navigation.goBack()} />
-        <View style={styles.title}>
-          <AppTitle>My Details:</AppTitle>
-        </View>
-        <View style={styles.inputContainer}>
-          <AppTextInput placeholder="Name" />
-          <AppTextInput placeholder="Email" />
-          <AppTextInput
-            placeholder="Password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            textContentType="password"
-            name="password"
-            secureTextEntry={true}
-          />
-          <AppTextInput
-            placeholder="Confirm password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            textContentType="password"
-            name="password"
-            secureTextEntry={true}
-          />
-        </View>
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form';
 
-        <View style={styles.buttonContainer}>
-          <AppButton title="Save" onPress={() => console.log('Save Changes')} />
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
+import auth from '@react-native-firebase/auth';
+import AppErrorMessage from '../../components/AppErrorMessage';
+import AuthContext from '../../auth/context';
+import AppActivityIndicator from '../../components/AppActivityIndicator';
+
+const validationSchema = Yup.object().shape({
+  displayName: Yup.string().required().min(2).max(20).label('Name'),
+});
+
+function AccountDetails({ navigation }) {
+  const [requestFailed, setRequestFailed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const userAuth = useContext(AuthContext);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      displayName: userAuth.user?.displayName,
+    },
+  });
+
+  const updateProfile = (displayName = '') => {
+    const update = {
+      displayName,
+    };
+    setIsLoading(true);
+    auth()
+      .currentUser.updateProfile(update)
+      .then(() => {
+        setIsLoading(false);
+        setSuccessMessage('Your profile name successfully updated');
+        userAuth.setUser(auth().currentUser.toJSON());
+      })
+      .catch(error => {
+        setRequestFailed(true);
+        setErrorMessage(error.message);
+        setIsLoading(false);
+        setSuccessMessage(null);
+      });
+  };
+
+  const handleUpdateAccount = ({ displayName }) => {
+    updateProfile(displayName);
+  };
+
+  return (
+    <>
+      <AppActivityIndicator visible={isLoading} />
+      <Screen>
+        <View style={styles.container}>
+          <AppBackIcon onPress={() => navigation.goBack()} />
+          <View style={styles.title}>
+            <AppTitle>My Details:</AppTitle>
+          </View>
+          <View style={styles.inputContainer}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your profile Name"
+                  autoCorrect={false}
+                />
+              )}
+              name="displayName"
+            />
+            {errors.displayName && (
+              <AppText>{errors.displayName.message}</AppText>
+            )}
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <AppButton
+              title="Save"
+              onPress={handleSubmit(handleUpdateAccount)}
+            />
+          </View>
+          <AppErrorMessage visible={requestFailed}>
+            {errorMessage}
+          </AppErrorMessage>
+          <AppErrorMessage visible={successMessage} color={themeColors.primary}>
+            {successMessage}
+          </AppErrorMessage>
         </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 }
 

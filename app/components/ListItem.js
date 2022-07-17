@@ -12,7 +12,7 @@ import themeColors from '../config/themeColors';
 import AppIcon from './AppIcon';
 import AppText from './AppText';
 
-function ListItem({ title, subTitle, IconComponent, onPress }) {
+function ListItem({ title, subTitle, color, IconComponent, onPress }) {
   return (
     <TouchableHighlight underlayColor={themeColors.lightGrey} onPress={onPress}>
       <View style={styles.container}>
@@ -21,16 +21,19 @@ function ListItem({ title, subTitle, IconComponent, onPress }) {
           <AppIcon name="person-circle" size={50} color={themeColors.primary} />
         )}
         <View style={styles.detailsContainer}>
-          <AppText numberOfLines={1} style={styles.title}>
+          <AppText
+            numberOfLines={1}
+            style={[styles.title, color]}
+            color={color}>
             {title}
           </AppText>
           {subTitle && (
-            <AppText numberOfLines={2} style={styles.subtitle}>
+            <AppText numberOfLines={2} style={[styles.subtitle, color]}>
               {subTitle}
             </AppText>
           )}
         </View>
-        <Icon name="chevron-forward" size={25} color={themeColors.grey} />
+        <AppIcon name="chevron-forward" size={25} color={color} />
       </View>
     </TouchableHighlight>
   );

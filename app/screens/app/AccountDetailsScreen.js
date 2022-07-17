@@ -31,6 +31,7 @@ import AppActivityIndicator from '../../components/AppActivityIndicator';
 const validationSchema = Yup.object().shape({
   displayName: Yup.string().required().min(2).max(20).label('Name'),
   email: Yup.string().required().email().label('Email'),
+  password: Yup.string().required().min(6).max(30).label('Password'),
 });
 
 function AccountDetails({ navigation }) {
@@ -60,7 +61,6 @@ function AccountDetails({ navigation }) {
     auth()
       .currentUser.updateEmail(userEmail)
       .then(result => {
-        //
         setIsLoading(false);
         setSuccessMessage('Your Email successfully updated');
         userAuth.setUser(auth().currentUser.toJSON());

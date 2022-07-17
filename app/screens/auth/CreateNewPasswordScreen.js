@@ -13,7 +13,7 @@ import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import routes from '../../navigation/routes';
 
-function CreateNewPassword({ navigation }) {
+function CreateNewPasswordScreen({ navigation }) {
   return (
     <Screen>
       <View style={styles.container}>
@@ -61,7 +61,7 @@ function CreateNewPassword({ navigation }) {
   );
 }
 
-export default CreateNewPassword;
+export default CreateNewPasswordScreen;
 
 const styles = StyleSheet.create({
   container: {

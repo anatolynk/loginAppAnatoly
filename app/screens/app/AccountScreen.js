@@ -62,21 +62,43 @@ function AccountScreen({ navigation }) {
           <ListItem
             title="My Details"
             IconComponent={
-              <AppIcon name="list-circle" size={30} color={themeColors.grey} />
+              <AppIcon
+                name="document-text"
+                size={30}
+                color={themeColors.grey}
+              />
             }
             onPress={() => navigation.navigate('AccountDetailsScreen')}
           />
           <View style={styles.inputContainer}>
             <ListItem
-              title="My Messages"
+              title="Change Password"
               IconComponent={
-                <AppIcon name="mail" size={30} color={themeColors.grey} />
+                <AppIcon
+                  name="lock-closed"
+                  size={30}
+                  color={themeColors.grey}
+                />
+              }
+              onPress={() => navigation.navigate(routes.CreateNewPassword)}
+            />
+
+            <ListItem
+              title="My Messages"
+              color={themeColors.lightGrey}
+              IconComponent={
+                <AppIcon name="mail" size={30} color={themeColors.lightGrey} />
               }
             />
             <ListItem
               title="My Settings"
+              color={themeColors.lightGrey}
               IconComponent={
-                <AppIcon name="settings" size={30} color={themeColors.grey} />
+                <AppIcon
+                  name="settings"
+                  size={30}
+                  color={themeColors.lightGrey}
+                />
               }
             />
           </View>

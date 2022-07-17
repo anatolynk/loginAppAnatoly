@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
-import CreateNewPassword from './app/screens/auth/CreateNewPassword';
 import ForgotPasswordScreen from './app/screens/auth/ForgotPasswordScreen';
 import LoginScreen from './app/screens/auth/LoginScreen';
 import OTPVerificationScreen from './app/screens/auth/OTPVerificationScreen';

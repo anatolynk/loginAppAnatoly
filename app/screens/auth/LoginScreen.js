@@ -131,12 +131,12 @@ function LoginScreen({ navigation }) {
             />
             {errors.password && <AppText>{errors.password.message}</AppText>}
           </View>
-          <AppLink
+          {/* <AppLink
             title="Forgot Password?"
             align="right"
             color={themeColors.darkGrey}
             onPress={() => navigation.navigate(routes.ForgotPassword)}
-          />
+          /> */}
 
           <View style={styles.buttonContainer}>
             <AppButton title="Login" onPress={handleSubmit(onLoginSubmit)} />

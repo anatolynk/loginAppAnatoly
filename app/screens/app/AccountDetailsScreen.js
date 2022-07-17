@@ -30,6 +30,7 @@ import AppActivityIndicator from '../../components/AppActivityIndicator';
 
 const validationSchema = Yup.object().shape({
   displayName: Yup.string().required().min(2).max(20).label('Name'),
+  email: Yup.string().required().email().label('Email'),
 });
 
 function AccountDetails({ navigation }) {
@@ -40,6 +41,8 @@ function AccountDetails({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const userAuth = useContext(AuthContext);
 
+  const currentUser = auth().currentUser.toJSON();
+
   const {
     control,
     handleSubmit,
@@ -47,9 +50,28 @@ function AccountDetails({ navigation }) {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      displayName: userAuth.user?.displayName,
+      displayName: currentUser?.displayName,
+      email: currentUser?.email,
     },
   });
+
+  const updateEmail = userEmail => {
+    setIsLoading(true);
+    auth()
+      .currentUser.updateEmail(userEmail)
+      .then(result => {
+        //
+        setIsLoading(false);
+        setSuccessMessage('Your Email successfully updated');
+        userAuth.setUser(auth().currentUser.toJSON());
+      })
+      .catch(error => {
+        setRequestFailed(true);
+        setErrorMessage(error.message);
+        setIsLoading(false);
+        setSuccessMessage(null);
+      });
+  };
 
   const updateProfile = (displayName = '') => {
     const update = {
@@ -71,8 +93,18 @@ function AccountDetails({ navigation }) {
       });
   };
 
-  const handleUpdateAccount = ({ displayName }) => {
-    updateProfile(displayName);
+  const handleUpdateAccount = ({ displayName, email }) => {
+    if (displayName) {
+      // Remove All Tags from diplsplayName
+      const profileName = displayName.replace(/(<([^>]+)>)/gi, '').trim();
+      if (profileName !== userAuth.user.displayName) {
+        updateProfile(profileName);
+      }
+    }
+
+    if (email !== userAuth.user.email) {
+      updateEmail(email);
+    }
   };
 
   return (
@@ -101,6 +133,23 @@ function AccountDetails({ navigation }) {
             {errors.displayName && (
               <AppText>{errors.displayName.message}</AppText>
             )}
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              )}
+              name="email"
+            />
+            {errors.email && <AppText>{errors.email.message}</AppText>}
           </View>
 
           <View style={styles.buttonContainer}>

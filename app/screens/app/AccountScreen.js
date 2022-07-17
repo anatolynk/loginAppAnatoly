@@ -91,6 +91,17 @@ function AccountScreen({ navigation }) {
               }
             />
             <ListItem
+              title="My Notifications"
+              color={themeColors.lightGrey}
+              IconComponent={
+                <AppIcon
+                  name="notifications"
+                  size={30}
+                  color={themeColors.lightGrey}
+                />
+              }
+            />
+            <ListItem
               title="My Settings"
               color={themeColors.lightGrey}
               IconComponent={

@@ -20,79 +20,87 @@ function VerifyEmailScreen({ navigation }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const [userEmailVerified, setUserEmailVerified] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
   const userAuth = useContext(AuthContext);
 
-  //   let currentUser = auth().currentUser.toJSON();
-
-  useEffect(() => {
-    setCurrentUser(auth().currentUser.toJSON());
-  }, []);
+  let currentUser = auth().currentUser.toJSON();
 
   const userReload = () => {
+    setIsLoading(true);
     auth()
       .currentUser.reload()
       .then(result => {
-        setCurrentUser(auth().currentUser.toJSON());
+        currentUser = auth().currentUser.toJSON();
+        setIsLoading(false);
+        userAuth.setUser(auth().currentUser.toJSON());
       })
       .catch(error => {
-        //
+        setRequestFailed(true);
+        setErrorMessage(error.message);
+        setIsLoading(false);
+        setSuccessMessage(null);
       });
   };
 
-  console.log(currentUser.emailVerified);
   return (
-    <Screen>
-      <View style={styles.container}>
-        <View style={styles.layoutContainer}>
-          {currentUser.emailVerified ? (
-            <AppIcon
-              style={styles.icon}
-              name="checkmark-circle"
-              size={100}
-              color={themeColors.green}
-            />
-          ) : (
-            <AppIcon
-              style={styles.icon}
-              name="mail"
-              size={100}
-              color={themeColors.primary}
-            />
-          )}
-
-          <View style={styles.title}>
-            <AppTitle>
-              {currentUser.emailVerified ? 'Completed' : 'Verify your Email!'}
-            </AppTitle>
-            {!currentUser.emailVerified && (
-              <View>
-                <AppText>We sent an email to {currentUser.email}</AppText>
-                <AppText>
-                  Just click on the link in that email to complete your
-                  verification.
-                </AppText>
-                <AppButton
-                  title="Check Verification Status"
-                  color="white"
-                  onPress={userReload}
-                />
-              </View>
+    <>
+      <AppActivityIndicator visible={isLoading} />
+      <Screen>
+        <View style={styles.container}>
+          <View style={styles.layoutContainer}>
+            {currentUser.emailVerified ? (
+              <AppIcon
+                style={styles.icon}
+                name="checkmark-circle"
+                size={100}
+                color={themeColors.green}
+              />
+            ) : (
+              <AppIcon
+                style={styles.icon}
+                name="mail"
+                size={100}
+                color={themeColors.primary}
+              />
             )}
-          </View>
-          <View style={styles.buttonContainer}>
-            <AppButton
-              title="Back to Account"
-              onPress={() => navigation.navigate('AccountScreen')}
-            />
+
+            <View style={styles.title}>
+              <AppTitle>
+                {currentUser.emailVerified ? 'Completed' : 'Verify your Email!'}
+              </AppTitle>
+              {!currentUser.emailVerified && (
+                <View>
+                  <AppText>We sent an email to {currentUser.email}</AppText>
+                  <AppText>
+                    Just click on the link in that email to complete your
+                    verification.
+                  </AppText>
+                  <AppButton
+                    title="Check Verification Status"
+                    color="white"
+                    onPress={userReload}
+                  />
+                </View>
+              )}
+            </View>
+            <View style={styles.buttonContainer}>
+              <AppButton
+                title="Back to Account"
+                onPress={() => navigation.navigate('AccountScreen')}
+              />
+            </View>
+            <AppErrorMessage visible={requestFailed}>
+              {errorMessage}
+            </AppErrorMessage>
+            <AppErrorMessage
+              visible={successMessage}
+              color={themeColors.primary}>
+              {successMessage}
+            </AppErrorMessage>
           </View>
         </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 }
 

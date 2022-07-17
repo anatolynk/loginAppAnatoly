@@ -5,6 +5,7 @@ import AccountScreen from '../screens/app/AccountScreen';
 import AccountDetailsScreen from '../screens/app/AccountDetailsScreen';
 import CreateNewPasswordScreen from '../screens/app/CreateNewPasswordScreen';
 import PasswordChangedScreen from '../screens/app/PasswordChangedScreen';
+import VerifyEmailScreen from '../screens/app/VerifyEmailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ const AccountNavigator = () => (
       component={CreateNewPasswordScreen}
     />
     <Stack.Screen name="PasswordChanged" component={PasswordChangedScreen} />
+    <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
   </Stack.Navigator>
 );
 

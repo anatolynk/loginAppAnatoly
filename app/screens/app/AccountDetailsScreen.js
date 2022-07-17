@@ -55,6 +55,25 @@ function AccountDetails({ navigation }) {
     },
   });
 
+  const sendEmailVerification = () => {
+    setIsLoading(true);
+    auth()
+      .currentUser.sendEmailVerification()
+      .then(result => {
+        setIsLoading(false);
+        setSuccessMessage(
+          `We sent an email to ${currentUser.email}. Just click on the link in that email to complete your verification.`,
+        );
+        navigation.replace('VerifyEmail');
+      })
+      .catch(error => {
+        setRequestFailed(true);
+        setErrorMessage(error.message);
+        setIsLoading(false);
+        setSuccessMessage(null);
+      });
+  };
+
   const updateEmail = userEmail => {
     setIsLoading(true);
     auth()
@@ -150,7 +169,18 @@ function AccountDetails({ navigation }) {
             />
             {errors.email && <AppText>{errors.email.message}</AppText>}
           </View>
-
+          <AppErrorMessage
+            visible={!currentUser.emailVerified}
+            color={themeColors.lightRed}>
+            Your Email is not verified
+          </AppErrorMessage>
+          {!currentUser.emailVerified && (
+            <AppLink
+              title="Send me confirmation link"
+              color={themeColors.primary}
+              onPress={sendEmailVerification}
+            />
+          )}
           <View style={styles.buttonContainer}>
             <AppButton
               title="Save"

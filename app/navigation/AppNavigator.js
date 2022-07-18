@@ -6,6 +6,7 @@ import AppIcon from '../components/AppIcon';
 import AppText from '../components/AppText';
 import AccountNavigator from './AccountNavigator';
 import FavoritesScreen from '../screens/app/FavoritesScreen';
+import HomeScreen from '../screens/app/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,13 +18,13 @@ const Empty = () => (
 
 const AppNavigator = () => (
   <Tab.Navigator
-    initialRouteName="Favorites"
+    initialRouteName="Home"
     screenOptions={{
       headerShown: false,
     }}>
     <Tab.Screen
       name="Home"
-      component={Empty}
+      component={HomeScreen}
       options={{
         tabBarIcon: ({ size, color }) => (
           <AppIcon name="home" size={size} color={color} />

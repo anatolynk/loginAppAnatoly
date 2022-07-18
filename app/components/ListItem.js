@@ -12,14 +12,22 @@ import themeColors from '../config/themeColors';
 import AppIcon from './AppIcon';
 import AppText from './AppText';
 
-function ListItem({ title, subTitle, color, IconComponent, onPress }) {
+function ListItem({
+  title,
+  subTitle,
+  color,
+  IconComponent,
+  imageUrl,
+  onPress,
+}) {
   return (
     <TouchableHighlight underlayColor={themeColors.lightGrey} onPress={onPress}>
       <View style={styles.container}>
-        {IconComponent}
         {!IconComponent && (
           <AppIcon name="person-circle" size={50} color={themeColors.primary} />
         )}
+        {IconComponent}
+        {imageUrl && <Image style={styles.image} source={imageUrl} />}
         <View style={styles.detailsContainer}>
           <AppText
             numberOfLines={1}

@@ -21,7 +21,7 @@ const useCollections = (FireStore, collectionName, filter = {}) => {
     let query = FireStore.collection(collectionName);
     if (filter.favorite) query = query.where('favorite', '==', filter.favorite);
     if (filter.hidden) query = query.where('hidden', '==', filter.hidden);
-
+    // query = query.orderBy('name', 'desc');
     return query
       .get()
       .then(collectionSnapshot => {

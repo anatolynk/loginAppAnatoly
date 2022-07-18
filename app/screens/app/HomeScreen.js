@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import AppButton from '../../components/AppButton';
@@ -24,6 +26,7 @@ import AppActivityIndicator from '../../components/AppActivityIndicator';
 import AppErrorMessage from '../../components/AppErrorMessage';
 
 import useCollections from '../../hooks/useCollections';
+import AppButtonIcon from '../../components/AppButtonIcon';
 
 // const FireStore = firestore();
 
@@ -66,6 +69,16 @@ function HomeScreen({ navigation }) {
           <View style={styles.title}>
             <AppTitle>My Contacts</AppTitle>
           </View>
+          <TouchableOpacity onPress={() => console.log('Press')}>
+            <View style={styles.detailsContainer}>
+              <AppIcon
+                name="add"
+                size={50}
+                color={themeColors.primary}
+                style={styles.addContact}
+              />
+            </View>
+          </TouchableOpacity>
           <AppErrorMessage visible={isError}>{errorMessage}</AppErrorMessage>
           <FlatList
             data={usersList}
@@ -114,5 +127,14 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
+  },
+  addContact: {},
+  detailsContainer: {
+    marginLeft: 15,
+    // justifyContent: 'flex-start',
+    // alignContent: 'flex-start',
+    // alignItems: 'center',
+    alignSelf: 'flex-end',
+    // flex: 0.5,
   },
 });

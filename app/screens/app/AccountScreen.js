@@ -51,7 +51,9 @@ function AccountScreen({ navigation }) {
     <>
       <AppActivityIndicator visible={isLoading} />
       <Screen>
-        <AppTitle style={styles.appTitle}>My Account</AppTitle>
+        <View style={styles.title}>
+          <AppTitle>My Account</AppTitle>
+        </View>
         <View style={styles.container}>
           <ListItem
             title={user?.displayName || 'Name'}
@@ -129,9 +131,10 @@ function AccountScreen({ navigation }) {
 export default AccountScreen;
 
 const styles = StyleSheet.create({
-  appTitle: {
-    marginTop: 12,
-    paddingLeft: 12,
+  title: {
+    marginTop: 35,
+    marginBottom: 28,
+    alignItems: 'center',
   },
   container: {
     flex: 1,

@@ -69,7 +69,8 @@ function HomeScreen({ navigation }) {
           <View style={styles.title}>
             <AppTitle>My Contacts</AppTitle>
           </View>
-          <TouchableOpacity onPress={() => console.log('Press')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AddNewContactScreen')}>
             <View style={styles.detailsContainer}>
               <AppIcon
                 name="add"

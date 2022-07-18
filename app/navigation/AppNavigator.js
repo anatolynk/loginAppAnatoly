@@ -7,6 +7,7 @@ import AppText from '../components/AppText';
 import AccountNavigator from './AccountNavigator';
 import FavoritesScreen from '../screens/app/FavoritesScreen';
 import HomeScreen from '../screens/app/HomeScreen';
+import ContactNavigator from './ContactNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +25,7 @@ const AppNavigator = () => (
     }}>
     <Tab.Screen
       name="Home"
-      component={HomeScreen}
+      component={ContactNavigator}
       options={{
         tabBarIcon: ({ size, color }) => (
           <AppIcon name="home" size={size} color={color} />

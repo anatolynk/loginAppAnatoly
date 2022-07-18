@@ -1,5 +1,12 @@
-import React from 'react';
-import { StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  FlatList,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import AppButton from '../../components/AppButton';
 import AppLink from '../../components/AppLink';
 import AppText from '../../components/AppText';
@@ -9,23 +16,77 @@ import Screen from '../../components/Screen';
 import themeColors from '../../config/themeColors';
 
 import AppIcon from '../../components/AppIcon';
-import AppButtonIcon from '../../components/AppButtonIcon';
-import AppBackIcon from '../../components/AppBackIcon';
-import routes from '../../navigation/routes';
+
+import firestore from '@react-native-firebase/firestore';
+import ListItem from '../../components/ListItem';
+import ListItemSeparator from '../../components/ListItemSeparator';
+import AppActivityIndicator from '../../components/AppActivityIndicator';
+import AppErrorMessage from '../../components/AppErrorMessage';
+
+import useCollections from '../../hooks/useCollections';
+
+// const FireStore = firestore();
 
 function FavoritesScreen({ navigation }) {
+  const {
+    isLoading,
+    isError,
+    errorMessage,
+    getUsersLists,
+    data: usersList,
+  } = useCollections(firestore(), 'users', { favorite: true });
+
+  if (isLoading && !usersList.length)
+    return (
+      <>
+        <AppActivityIndicator visible={true} />
+        <Screen>
+          <View style={styles.container}>
+            <View style={styles.layoutContainer}>
+              <AppIcon
+                style={styles.icon}
+                name="star"
+                size={100}
+                color="gold"
+              />
+              <View style={styles.title}>
+                <AppTitle>My Favorites</AppTitle>
+                <AppText>Loading...</AppText>
+              </View>
+            </View>
+          </View>
+        </Screen>
+      </>
+    );
+
   return (
-    <Screen>
-      <View style={styles.container}>
-        <View style={styles.layoutContainer}>
-          <AppIcon style={styles.icon} name="star" size={100} color="gold" />
+    <>
+      <AppActivityIndicator visible={isLoading} />
+      <Screen>
+        <View style={styles.container}>
           <View style={styles.title}>
             <AppTitle>My Favorites</AppTitle>
-            <AppText>Add New Items</AppText>
           </View>
+          <AppErrorMessage visible={isError}>{errorMessage}</AppErrorMessage>
+          <FlatList
+            data={usersList}
+            keyExtractor={user => user.id.toString()}
+            renderItem={({ item }) => (
+              <ListItem
+                title={item['data'].name}
+                subTitle={item['data'].email}
+                favorite={item['data']?.favorite}
+                imageUrl={item['data'].avatar}
+                onPress={() => console.log(item)}
+              />
+            )}
+            ItemSeparatorComponent={() => <ListItemSeparator />}
+            refreshing={isLoading}
+            onRefresh={() => getUsersLists()}
+          />
         </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 }
 

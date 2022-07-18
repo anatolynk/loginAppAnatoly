@@ -21,7 +21,6 @@ function ListItem({
   imageUrl,
   onPress,
 }) {
-  // console.log('imageUrl: ', imageUrl);
   return (
     <TouchableHighlight underlayColor={themeColors.lightGrey} onPress={onPress}>
       <View style={styles.container}>

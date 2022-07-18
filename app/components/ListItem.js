@@ -15,19 +15,21 @@ import AppText from './AppText';
 function ListItem({
   title,
   subTitle,
+  favorite,
   color,
   IconComponent,
   imageUrl,
   onPress,
 }) {
+  // console.log('imageUrl: ', imageUrl);
   return (
     <TouchableHighlight underlayColor={themeColors.lightGrey} onPress={onPress}>
       <View style={styles.container}>
-        {!IconComponent && (
+        {!IconComponent && !imageUrl && (
           <AppIcon name="person-circle" size={50} color={themeColors.primary} />
         )}
         {IconComponent}
-        {imageUrl && <Image style={styles.image} source={imageUrl} />}
+        {imageUrl && <Image style={styles.image} source={{ uri: imageUrl }} />}
         <View style={styles.detailsContainer}>
           <AppText
             numberOfLines={1}
@@ -41,6 +43,14 @@ function ListItem({
             </AppText>
           )}
         </View>
+        {favorite && (
+          <AppIcon
+            style={styles.iconTitle}
+            name="star"
+            size={15}
+            color="gold"
+          />
+        )}
         <AppIcon name="chevron-forward" size={25} color={color} />
       </View>
     </TouchableHighlight>
@@ -72,5 +82,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: themeColors.grey,
+  },
+  iconTitle: {
+    marginRight: 10,
   },
 });

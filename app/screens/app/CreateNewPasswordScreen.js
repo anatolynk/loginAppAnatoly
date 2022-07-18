@@ -47,6 +47,7 @@ function CreateNewPasswordScreen({ navigation }) {
   const [successMessage, setSuccessMessage] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
+
   const userAuth = useContext(AuthContext);
 
   const currentUser = auth().currentUser.toJSON();

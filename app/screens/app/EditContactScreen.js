@@ -60,7 +60,7 @@ const getRandomKey = (max = 1000) => {
 function EditContactScreen({ navigation, route }) {
   const params = route.params;
   const prevScreenName = params['prevScreenName'];
-  console.log(prevScreenName);
+
   const [currentContact, setCurrentContact] = useState(params['data']);
 
   const [requestFailed, setRequestFailed] = useState(false);
@@ -69,7 +69,8 @@ function EditContactScreen({ navigation, route }) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&hash=`;
+  //   const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&hash=`;
+  const randomAvatarUrl = `https://i.pravatar.cc/300?u=`;
 
   const [avatarUrl, setAvatarUrl] = useState(currentContact.avatar);
 
@@ -98,7 +99,7 @@ function EditContactScreen({ navigation, route }) {
   const updateContact = item => {
     setIsLoading(true);
     setIsAdded(false);
-    console.log('id: ', params.id, 'data: ', item);
+
     firestore()
       .collection('users')
       .doc(params.id)
@@ -119,8 +120,6 @@ function EditContactScreen({ navigation, route }) {
   };
 
   const handleUpdateContact = ({ name, email, phone, company }) => {
-    console.log('name: ', name);
-    console.log('Boolean: ', Boolean(undefined));
     setCurrentContact({
       name,
       email,
@@ -129,14 +128,7 @@ function EditContactScreen({ navigation, route }) {
       avatar: avatarUrl,
       favorite: Boolean(currentContact.favorite),
     });
-    // updateContact(
-    //   name,
-    //   email,
-    //   phone,
-    //   company,
-    //   avatarUrl,
-    //   currentContact.favorite,
-    // );
+
     updateContact({
       name,
       email,
@@ -170,7 +162,6 @@ function EditContactScreen({ navigation, route }) {
   };
 
   const handleDeleteContact = id => {
-    console.log('Delete ID: ', id);
     setModalVisible(false);
     deleteAccount(id);
   };

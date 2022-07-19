@@ -60,7 +60,8 @@ function AddNewContactScreen({ navigation }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
-  const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&hash=`;
+  // const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&hash=`;
+  const randomAvatarUrl = `https://i.pravatar.cc/300?u=`;
 
   const [avatarUrl, setAvatarUrl] = useState(
     `${randomAvatarUrl}` + getRandomKey(1000),

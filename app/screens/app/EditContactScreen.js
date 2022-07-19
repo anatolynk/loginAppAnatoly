@@ -59,7 +59,8 @@ const getRandomKey = (max = 1000) => {
 
 function EditContactScreen({ navigation, route }) {
   const params = route.params;
-
+  const prevScreenName = params['prevScreenName'];
+  console.log(prevScreenName);
   const [currentContact, setCurrentContact] = useState(params['data']);
 
   const [requestFailed, setRequestFailed] = useState(false);
@@ -106,7 +107,7 @@ function EditContactScreen({ navigation, route }) {
         setIsAdded(true);
         setIsLoading(false);
         navigation.navigate({
-          name: 'HomeScreen',
+          name: prevScreenName,
           params: item,
         });
       })
@@ -157,7 +158,7 @@ function EditContactScreen({ navigation, route }) {
         setIsAdded(true);
         setIsLoading(false);
         navigation.navigate({
-          name: 'HomeScreen',
+          name: prevScreenName,
           params: {},
         });
       })

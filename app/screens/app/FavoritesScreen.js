@@ -29,7 +29,8 @@ import useCollections from '../../hooks/useCollections';
 
 // import { doc, onSnapshot } from '@react-native-firebase/firestore';
 
-function FavoritesScreen({ navigation }) {
+function FavoritesScreen({ navigation, route }) {
+  const params = route.params;
   const {
     isLoading,
     isError,
@@ -37,6 +38,10 @@ function FavoritesScreen({ navigation }) {
     getUsersLists,
     data: usersList,
   } = useCollections(firestore(), 'users', { favorite: true });
+
+  useEffect(() => {
+    getUsersLists();
+  }, [params]);
 
   if (isLoading && !usersList.length)
     return (
@@ -82,7 +87,7 @@ function FavoritesScreen({ navigation }) {
                 onPress={() =>
                   navigation.navigate({
                     name: 'EditContactScreen',
-                    params: item,
+                    params: { ...item, prevScreenName: 'FavoritesScreen' },
                   })
                 }
               />

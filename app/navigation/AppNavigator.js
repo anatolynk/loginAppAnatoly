@@ -8,6 +8,7 @@ import AccountNavigator from './AccountNavigator';
 import FavoritesScreen from '../screens/app/FavoritesScreen';
 import HomeScreen from '../screens/app/HomeScreen';
 import ContactNavigator from './ContactNavigator';
+import FavoritesNavigator from './FavoritesNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +35,7 @@ const AppNavigator = () => (
     />
     <Tab.Screen
       name="Favorites"
-      component={FavoritesScreen}
+      component={FavoritesNavigator}
       options={{
         tabBarIcon: ({ size, color }) => (
           <AppIcon name="star" size={size} color={color} />

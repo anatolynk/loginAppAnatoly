@@ -98,7 +98,7 @@ function HomeScreen({ navigation, route }) {
                 onPress={() =>
                   navigation.navigate({
                     name: 'EditContactScreen',
-                    params: item,
+                    params: { ...item, prevScreenName: 'HomeScreen' },
                   })
                 }
               />

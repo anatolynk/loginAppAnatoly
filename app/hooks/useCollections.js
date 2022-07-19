@@ -12,40 +12,42 @@ const useCollections = (FireStore, collectionName, filter = {}) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [data, setData] = useState([]);
 
-  const getUsersLists = () => {
+  function onResult(QuerySnapshot) {
     const currentUsersList = [];
-    setIsLoading(true);
-    setIsError(false);
-    setErrorMessage(null);
 
-    let query = FireStore.collection(collectionName);
-    if (filter.favorite) query = query.where('favorite', '==', filter.favorite);
-    if (filter.hidden) query = query.where('hidden', '==', filter.hidden);
-    // query = query.orderBy('name', 'desc');
-    return query
-      .get()
-      .then(collectionSnapshot => {
-        collectionSnapshot.forEach(documentSnapshot => {
+    QuerySnapshot.forEach(documentSnapshot => {
+      if (Object.keys(filter).length) {
+        if (filter.favorite === documentSnapshot.data().favorite) {
           currentUsersList.push({
             id: documentSnapshot.id.toString(),
             data: documentSnapshot.data(),
           });
+        }
+      } else
+        currentUsersList.push({
+          id: documentSnapshot.id.toString(),
+          data: documentSnapshot.data(),
         });
-        setData(currentUsersList);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        setIsError(true);
-        setErrorMessage(error.message);
-        setIsLoading(false);
-      });
-  };
+    });
+    setData(currentUsersList);
+    setIsLoading(false);
+  }
+
+  function onError(error) {
+    setIsError(true);
+    setErrorMessage(error.message);
+    setIsLoading(false);
+  }
 
   useEffect(() => {
-    getUsersLists();
-  }, [FireStore, collectionName]);
+    const subscribe = FireStore.collection(collectionName).onSnapshot(
+      onResult,
+      onError,
+    );
+    return () => subscribe();
+  }, []);
 
-  return { isLoading, isError, errorMessage, getUsersLists, data };
+  return { isLoading, isError, errorMessage, data };
 };
 
 export default useCollections;

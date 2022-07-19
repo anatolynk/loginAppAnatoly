@@ -22,12 +22,11 @@ import ListItem from '../../components/ListItem';
 import ListItemSeparator from '../../components/ListItemSeparator';
 import AppActivityIndicator from '../../components/AppActivityIndicator';
 import AppErrorMessage from '../../components/AppErrorMessage';
+import { useIsFocused } from '@react-navigation/native';
 
 import useCollections from '../../hooks/useCollections';
 
-// const FireStore = firestore();
-
-// import { doc, onSnapshot } from '@react-native-firebase/firestore';
+const FireStore = firestore();
 
 function FavoritesScreen({ navigation, route }) {
   const params = route.params;
@@ -35,13 +34,9 @@ function FavoritesScreen({ navigation, route }) {
     isLoading,
     isError,
     errorMessage,
-    getUsersLists,
-    data: usersList,
-  } = useCollections(firestore(), 'users', { favorite: true });
 
-  useEffect(() => {
-    getUsersLists();
-  }, [params]);
+    data: usersList,
+  } = useCollections(FireStore, 'users', { favorite: true });
 
   if (isLoading && !usersList.length)
     return (
@@ -74,6 +69,7 @@ function FavoritesScreen({ navigation, route }) {
           <View style={styles.title}>
             <AppTitle>My Favorites</AppTitle>
           </View>
+
           <AppErrorMessage visible={isError}>{errorMessage}</AppErrorMessage>
           <FlatList
             data={usersList}
@@ -94,7 +90,6 @@ function FavoritesScreen({ navigation, route }) {
             )}
             ItemSeparatorComponent={() => <ListItemSeparator />}
             refreshing={isLoading}
-            onRefresh={() => getUsersLists()}
           />
         </View>
       </Screen>

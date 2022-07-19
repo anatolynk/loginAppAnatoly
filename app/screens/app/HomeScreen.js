@@ -20,6 +20,7 @@ import themeColors from '../../config/themeColors';
 import AppIcon from '../../components/AppIcon';
 
 import firestore from '@react-native-firebase/firestore';
+
 import ListItem from '../../components/ListItem';
 import ListItemSeparator from '../../components/ListItemSeparator';
 import AppActivityIndicator from '../../components/AppActivityIndicator';
@@ -28,7 +29,7 @@ import AppErrorMessage from '../../components/AppErrorMessage';
 import useCollections from '../../hooks/useCollections';
 import AppButtonIcon from '../../components/AppButtonIcon';
 
-// const FireStore = firestore();
+const FireStore = firestore();
 
 function HomeScreen({ navigation, route }) {
   const params = route.params;
@@ -36,13 +37,9 @@ function HomeScreen({ navigation, route }) {
     isLoading,
     isError,
     errorMessage,
-    getUsersLists,
-    data: usersList,
-  } = useCollections(firestore(), 'users');
 
-  useEffect(() => {
-    getUsersLists();
-  }, [params]);
+    data: usersList,
+  } = useCollections(FireStore, 'users');
 
   if (isLoading && !usersList.length)
     return (
@@ -105,7 +102,7 @@ function HomeScreen({ navigation, route }) {
             )}
             ItemSeparatorComponent={() => <ListItemSeparator />}
             refreshing={isLoading}
-            onRefresh={() => getUsersLists()}
+            // onRefresh={() => getUsersLists()}
           />
         </View>
       </Screen>

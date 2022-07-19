@@ -43,7 +43,7 @@ import AppLoading from '../../components/AppLoading';
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(2).max(20).label('Name'),
   email: Yup.string().required().email().label('Email'),
-  phone: Yup.string().min(6).max(20).label('Phone'),
+  phone: Yup.string().min(2).max(20).label('Phone'),
   company: Yup.string().min(2).max(20).label('Company'),
 });
 
@@ -60,7 +60,7 @@ function AddNewContactScreen({ navigation }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
-  const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&r=`;
+  const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&hash=`;
 
   const [avatarUrl, setAvatarUrl] = useState(
     `${randomAvatarUrl}` + getRandomKey(1000),
@@ -89,6 +89,7 @@ function AddNewContactScreen({ navigation }) {
   });
 
   const addNewContact = (name, email, phone, company, avatar) => {
+    setIsLoading(true);
     setIsAdded(false);
     firestore()
       .collection('users')
@@ -100,8 +101,8 @@ function AddNewContactScreen({ navigation }) {
         avatar,
       })
       .then(result => {
-        // console.log('added id: ', result.id);
         setIsAdded(true);
+        setIsLoading(false);
         navigation.navigate({
           name: 'HomeScreen',
           params: { newId: result.id },
@@ -109,7 +110,7 @@ function AddNewContactScreen({ navigation }) {
       })
       .catch(error => {
         setIsAdded(false);
-        console.log(error.message);
+        setIsLoading(false);
       });
   };
 
@@ -117,140 +118,115 @@ function AddNewContactScreen({ navigation }) {
     addNewContact(name, email, phone, company, avatarUrl);
   };
 
-  //   if (1)
-  //     return (
-  //       <Screen>
-  //         <AppLoading
-  //           visible={true}
-  //           loop={false}
-  //           onFinish={() => navigation.navigate('HomeScreen')}
-  //           source={require('../../assets/animations/done.json')}
-  //         />
-  //       </Screen>
-  //     );
   return (
     <>
-      {/* <AppActivityIndicator visible={isLoading} /> */}
+      <AppActivityIndicator visible={isLoading} />
       <Screen>
-        {/* {isAdded && (
-          <AppLoading
-            visible={true}
-            loop={false}
-            onFinish={() => navigation.navigate('HomeScreen')}
-            source={require('../../assets/animations/done.json')}
-          />
-        )} */}
-        <ScrollView>
-          <View style={styles.container}>
-            <AppBackIcon onPress={() => navigation.goBack()} />
-            <View style={styles.title}>
-              <AppTitle>New Contact:</AppTitle>
-            </View>
-            <View style={styles.avatarContact}>
-              {/* <AppIcon
+        <View style={styles.container}>
+          <AppBackIcon onPress={() => navigation.goBack()} />
+          <View style={styles.title}>
+            <AppTitle>New Contact:</AppTitle>
+          </View>
+          <View style={styles.avatarContact}>
+            {/* <AppIcon
                 name="person-circle"
                 size={100}
                 color={themeColors.primary}
               /> */}
-              <TouchableOpacity
-                onPress={() =>
-                  setAvatarUrl(randomAvatarUrl + getRandomKey(1000))
-                }>
-                <Image style={styles.image} source={{ uri: avatarUrl }} />
-              </TouchableOpacity>
-              <AppLink
-                title="Generate Photo"
-                color={themeColors.primary}
-                onPress={() =>
-                  setAvatarUrl(randomAvatarUrl + getRandomKey(1000))
-                }
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <AppTextInput
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    placeholder="Enter your name"
-                    autoCorrect={false}
-                  />
-                )}
-                name="name"
-              />
-              {errors.name && <AppText>{errors.name.message}</AppText>}
-
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <AppTextInput
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                    placeholder="Enter your email"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                )}
-                name="email"
-              />
-              {errors.email && <AppText>{errors.email.message}</AppText>}
-            </View>
-
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <AppTextInput
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Enter your phone number"
-                  autoCorrect={false}
-                />
-              )}
-              name="phone"
+            <TouchableOpacity
+              onPress={() =>
+                setAvatarUrl(randomAvatarUrl + getRandomKey(1000))
+              }>
+              <Image style={styles.image} source={{ uri: avatarUrl }} />
+            </TouchableOpacity>
+            <AppLink
+              title="Generate Photo"
+              color={themeColors.primary}
+              onPress={() => setAvatarUrl(randomAvatarUrl + getRandomKey(1000))}
             />
-            {errors.name && <AppText>{errors.name.message}</AppText>}
-
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <AppTextInput
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Enter your workplace"
-                  autoCorrect={false}
-                />
-              )}
-              name="company"
-            />
-            {errors.name && <AppText>{errors.name.message}</AppText>}
-
-            <View style={styles.buttonContainer}>
-              <AppButton
-                title="Done"
-                onPress={handleSubmit(handleAddNewContact)}
-              />
-              <AppButton
-                title="Cancel"
-                color="white"
-                onPress={() => navigation.goBack()}
-              />
-            </View>
-            <AppErrorMessage visible={requestFailed}>
-              {errorMessage}
-            </AppErrorMessage>
-            <AppErrorMessage
-              visible={successMessage}
-              color={themeColors.primary}>
-              {successMessage}
-            </AppErrorMessage>
           </View>
-        </ScrollView>
+          <View style={styles.inputContainer}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your name"
+                  autoCorrect={false}
+                />
+              )}
+              name="name"
+            />
+            {errors.name && <AppText>{errors.name.message}</AppText>}
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppTextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter your email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              )}
+              name="email"
+            />
+            {errors.email && <AppText>{errors.email.message}</AppText>}
+          </View>
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Enter your phone number"
+                autoCorrect={false}
+              />
+            )}
+            name="phone"
+          />
+          {errors.name && <AppText>{errors.name.message}</AppText>}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Enter your workplace"
+                autoCorrect={false}
+              />
+            )}
+            name="company"
+          />
+          {errors.name && <AppText>{errors.name.message}</AppText>}
+
+          <View style={styles.buttonContainer}>
+            <AppButton
+              title="Done"
+              onPress={handleSubmit(handleAddNewContact)}
+            />
+            <AppButton
+              title="Cancel"
+              color="white"
+              onPress={() => navigation.goBack()}
+            />
+          </View>
+          <AppErrorMessage visible={requestFailed}>
+            {errorMessage}
+          </AppErrorMessage>
+          <AppErrorMessage visible={successMessage} color={themeColors.primary}>
+            {successMessage}
+          </AppErrorMessage>
+        </View>
       </Screen>
     </>
   );

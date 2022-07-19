@@ -27,6 +27,8 @@ import useCollections from '../../hooks/useCollections';
 
 // const FireStore = firestore();
 
+// import { doc, onSnapshot } from '@react-native-firebase/firestore';
+
 function FavoritesScreen({ navigation }) {
   const {
     isLoading,

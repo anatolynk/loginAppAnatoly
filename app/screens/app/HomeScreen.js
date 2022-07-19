@@ -30,7 +30,8 @@ import AppButtonIcon from '../../components/AppButtonIcon';
 
 // const FireStore = firestore();
 
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation, route }) {
+  const params = route.params;
   const {
     isLoading,
     isError,
@@ -38,6 +39,12 @@ function HomeScreen({ navigation }) {
     getUsersLists,
     data: usersList,
   } = useCollections(firestore(), 'users');
+
+  useEffect(() => {
+    if (params?.newId) {
+      getUsersLists();
+    }
+  }, [params?.newId]);
 
   if (isLoading && !usersList.length)
     return (

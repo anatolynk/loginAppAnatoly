@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import {
+  Image,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import AppButton from '../../components/AppButton';
@@ -20,6 +22,8 @@ import AppButtonIcon from '../../components/AppButtonIcon';
 import AppBackIcon from '../../components/AppBackIcon';
 import routes from '../../navigation/routes';
 
+import firestore from '@react-native-firebase/firestore';
+
 import {
   useForm,
   Controller,
@@ -34,6 +38,7 @@ import auth from '@react-native-firebase/auth';
 import AppErrorMessage from '../../components/AppErrorMessage';
 import AuthContext from '../../auth/context';
 import AppActivityIndicator from '../../components/AppActivityIndicator';
+import AppLoading from '../../components/AppLoading';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(2).max(20).label('Name'),
@@ -42,13 +47,29 @@ const validationSchema = Yup.object().shape({
   company: Yup.string().min(2).max(20).label('Company'),
 });
 
+const getRandomKey = (max = 1000) => {
+  const randomKey = Math.floor(Math.random() * max);
+
+  return `${randomKey}`;
+
+  // return `https://api.lorem.space/image/face?w=640&h=480&r=${randomKey}`;
+};
+
 function AddNewContactScreen({ navigation }) {
   const [requestFailed, setRequestFailed] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
+  const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&r=`;
+
+  const [avatarUrl, setAvatarUrl] = useState(
+    `${randomAvatarUrl}` + getRandomKey(1000),
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const userAuth = useContext(AuthContext);
+
+  const [isAdded, setIsAdded] = useState(false);
 
   const currentUser = auth().currentUser.toJSON();
 
@@ -67,14 +88,58 @@ function AddNewContactScreen({ navigation }) {
     },
   });
 
-  const handleAddNewContact = ({ name, email, phone, company }) => {
-    console.log('Add New Contact: ', name, email, phone, company);
+  const addNewContact = (name, email, phone, company, avatar) => {
+    setIsAdded(false);
+    firestore()
+      .collection('users')
+      .add({
+        name,
+        email,
+        phone,
+        company,
+        avatar,
+      })
+      .then(result => {
+        // console.log('added id: ', result.id);
+        setIsAdded(true);
+        navigation.navigate({
+          name: 'HomeScreen',
+          params: { newId: result.id },
+        });
+      })
+      .catch(error => {
+        setIsAdded(false);
+        console.log(error.message);
+      });
   };
 
+  const handleAddNewContact = ({ name, email, phone, company }) => {
+    addNewContact(name, email, phone, company, avatarUrl);
+  };
+
+  //   if (1)
+  //     return (
+  //       <Screen>
+  //         <AppLoading
+  //           visible={true}
+  //           loop={false}
+  //           onFinish={() => navigation.navigate('HomeScreen')}
+  //           source={require('../../assets/animations/done.json')}
+  //         />
+  //       </Screen>
+  //     );
   return (
     <>
       {/* <AppActivityIndicator visible={isLoading} /> */}
       <Screen>
+        {/* {isAdded && (
+          <AppLoading
+            visible={true}
+            loop={false}
+            onFinish={() => navigation.navigate('HomeScreen')}
+            source={require('../../assets/animations/done.json')}
+          />
+        )} */}
         <ScrollView>
           <View style={styles.container}>
             <AppBackIcon onPress={() => navigation.goBack()} />
@@ -82,15 +147,23 @@ function AddNewContactScreen({ navigation }) {
               <AppTitle>New Contact:</AppTitle>
             </View>
             <View style={styles.avatarContact}>
-              <AppIcon
+              {/* <AppIcon
                 name="person-circle"
                 size={100}
                 color={themeColors.primary}
-              />
+              /> */}
+              <TouchableOpacity
+                onPress={() =>
+                  setAvatarUrl(randomAvatarUrl + getRandomKey(1000))
+                }>
+                <Image style={styles.image} source={{ uri: avatarUrl }} />
+              </TouchableOpacity>
               <AppLink
-                title="Add Photo"
+                title="Generate Photo"
                 color={themeColors.primary}
-                style={{ opacity: 0.3 }}
+                onPress={() =>
+                  setAvatarUrl(randomAvatarUrl + getRandomKey(1000))
+                }
               />
             </View>
             <View style={styles.inputContainer}>
@@ -203,5 +276,10 @@ const styles = StyleSheet.create({
   },
   avatarContact: {
     alignSelf: 'center',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
 });

@@ -41,10 +41,8 @@ function HomeScreen({ navigation, route }) {
   } = useCollections(firestore(), 'users');
 
   useEffect(() => {
-    if (params?.newId) {
-      getUsersLists();
-    }
-  }, [params?.newId]);
+    getUsersLists();
+  }, [params]);
 
   if (isLoading && !usersList.length)
     return (
@@ -97,7 +95,12 @@ function HomeScreen({ navigation, route }) {
                 subTitle={item['data'].email}
                 favorite={item['data']?.favorite}
                 imageUrl={item['data'].avatar}
-                onPress={() => console.log(item)}
+                onPress={() =>
+                  navigation.navigate({
+                    name: 'EditContactScreen',
+                    params: item,
+                  })
+                }
               />
             )}
             ItemSeparatorComponent={() => <ListItemSeparator />}

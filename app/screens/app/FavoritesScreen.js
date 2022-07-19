@@ -79,7 +79,12 @@ function FavoritesScreen({ navigation }) {
                 subTitle={item['data'].email}
                 favorite={item['data']?.favorite}
                 imageUrl={item['data'].avatar}
-                onPress={() => console.log(item)}
+                onPress={() =>
+                  navigation.navigate({
+                    name: 'EditContactScreen',
+                    params: item,
+                  })
+                }
               />
             )}
             ItemSeparatorComponent={() => <ListItemSeparator />}

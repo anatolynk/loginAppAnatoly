@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import {
   Image,
+  Modal,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -64,6 +65,8 @@ function EditContactScreen({ navigation, route }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   const randomAvatarUrl = `https://api.lorem.space/image/face?w=300&h=300&hash=`;
 
   const [avatarUrl, setAvatarUrl] = useState(currentContact.avatar);
@@ -115,12 +118,68 @@ function EditContactScreen({ navigation, route }) {
       .catch(error => {
         setIsAdded(false);
         setIsLoading(false);
+        setErrorMessage(error.message);
       });
   };
 
   const handleUpdateContact = ({ name, email, phone, company }) => {
     setCurrentContact({ name, email, phone, company, avatarUrl });
     updateContact(name, email, phone, company, avatarUrl);
+  };
+
+  const deleteAccount = id => {
+    setIsLoading(true);
+    setIsAdded(false);
+    firestore()
+      .collection('users')
+      .doc(id)
+      .delete()
+      .then(result => {
+        setIsAdded(true);
+        setIsLoading(false);
+        navigation.navigate({
+          name: 'HomeScreen',
+          params: {},
+        });
+      })
+      .catch(error => {
+        setIsAdded(false);
+        setIsLoading(false);
+        setErrorMessage(error.message);
+      });
+  };
+
+  const handleDeleteContact = id => {
+    console.log('Delete ID: ', id);
+    setModalVisible(false);
+    deleteAccount(id);
+  };
+
+  const AppDeleteModal = () => {
+    return (
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View style={styles.modal}>
+          <View style={styles.avatarContact}>
+            <AppIcon name="trash" color={themeColors.lightRed} size={40} />
+          </View>
+          <View style={styles.title}>
+            <AppText>Are you sure you want to delete contact?</AppText>
+          </View>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              title="Delete"
+              color="lightRed"
+              onPress={() => handleDeleteContact(params.id)}
+            />
+            <AppButton
+              title="Cancel"
+              color="white"
+              onPress={() => setModalVisible(false)}
+            />
+          </View>
+        </View>
+      </Modal>
+    );
   };
 
   return (
@@ -224,7 +283,15 @@ function EditContactScreen({ navigation, route }) {
               color="white"
               onPress={() => navigation.goBack()}
             />
+            <AppLink
+              title="Delete Contact"
+              color={themeColors.lightRed}
+              onPress={() => setModalVisible(true)}
+            />
           </View>
+
+          <AppDeleteModal />
+
           <AppErrorMessage visible={requestFailed}>
             {errorMessage}
           </AppErrorMessage>
@@ -242,6 +309,21 @@ export default EditContactScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  modal: {
+    position: 'absolute',
+    bottom: 10,
+    width: '100%',
+    height: '35%',
+    backgroundColor: themeColors.white,
+    zIndex: 2,
+    padding: 20,
+
+    shadowColor: 'grey',
+    // shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+    borderRadius: 20,
   },
   inputContainer: {},
   buttonContainer: {

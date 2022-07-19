@@ -40,6 +40,7 @@ import AppErrorMessage from '../../components/AppErrorMessage';
 import AuthContext from '../../auth/context';
 import AppActivityIndicator from '../../components/AppActivityIndicator';
 import AppLoading from '../../components/AppLoading';
+import ListItem from '../../components/ListItem';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(2).max(20).label('Name'),
@@ -84,35 +85,29 @@ function EditContactScreen({ navigation, route }) {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
+
     defaultValues: {
       name: currentContact.name,
       email: currentContact.email,
       phone: currentContact.phone,
       company: currentContact.company,
-      avatar: currentContact.avatar,
     },
   });
 
-  const updateContact = (name, email, phone, company, avatar) => {
+  const updateContact = item => {
     setIsLoading(true);
     setIsAdded(false);
+    console.log('id: ', params.id, 'data: ', item);
     firestore()
       .collection('users')
       .doc(params.id)
-      .update({
-        name,
-        email,
-        phone,
-        company,
-        avatar,
-      })
+      .update(item)
       .then(result => {
-        console.log(result);
         setIsAdded(true);
         setIsLoading(false);
         navigation.navigate({
           name: 'HomeScreen',
-          params: currentContact,
+          params: item,
         });
       })
       .catch(error => {
@@ -123,8 +118,32 @@ function EditContactScreen({ navigation, route }) {
   };
 
   const handleUpdateContact = ({ name, email, phone, company }) => {
-    setCurrentContact({ name, email, phone, company, avatarUrl });
-    updateContact(name, email, phone, company, avatarUrl);
+    console.log('name: ', name);
+    console.log('Boolean: ', Boolean(undefined));
+    setCurrentContact({
+      name,
+      email,
+      phone,
+      company,
+      avatar: avatarUrl,
+      favorite: Boolean(currentContact.favorite),
+    });
+    // updateContact(
+    //   name,
+    //   email,
+    //   phone,
+    //   company,
+    //   avatarUrl,
+    //   currentContact.favorite,
+    // );
+    updateContact({
+      name,
+      email,
+      phone,
+      company,
+      avatar: String(avatarUrl),
+      favorite: Boolean(currentContact.favorite),
+    });
   };
 
   const deleteAccount = id => {
@@ -187,7 +206,10 @@ function EditContactScreen({ navigation, route }) {
       <AppActivityIndicator visible={isLoading} />
       <Screen>
         <View style={styles.container}>
-          <AppBackIcon onPress={() => navigation.goBack()} />
+          <AppBackIcon
+            style={{ marginBottom: 0 }}
+            onPress={() => navigation.goBack()}
+          />
           <View style={styles.title}>
             <AppTitle>Update Contact:</AppTitle>
           </View>
@@ -273,6 +295,28 @@ function EditContactScreen({ navigation, route }) {
           />
           {errors.name && <AppText>{errors.name.message}</AppText>}
 
+          <ListItem
+            title={
+              currentContact.favorite
+                ? 'Remove from Favorites'
+                : 'Add to Favorites'
+            }
+            IconComponent={
+              <AppIcon
+                name={currentContact.favorite ? 'star' : 'star-outline'}
+                size={20}
+                color={themeColors.primary}
+              />
+            }
+            isChevron={false}
+            onPress={() =>
+              setCurrentContact({
+                ...currentContact,
+                favorite: !currentContact.favorite,
+              })
+            }
+          />
+
           <View style={styles.buttonContainer}>
             <AppButton
               title="Save"
@@ -314,20 +358,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     width: '100%',
-    height: '35%',
+    height: '40%',
     backgroundColor: themeColors.white,
     zIndex: 2,
     padding: 20,
 
     shadowColor: 'grey',
-    // shadowOffset: { width: 10, height: 10 },
+
     shadowOpacity: 0.2,
     shadowRadius: 15,
     borderRadius: 20,
   },
   inputContainer: {},
   buttonContainer: {
-    marginTop: 30,
+    marginTop: 10,
   },
   linkContainer: {
     flex: 1,

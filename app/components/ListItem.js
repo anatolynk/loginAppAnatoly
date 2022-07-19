@@ -20,6 +20,7 @@ function ListItem({
   IconComponent,
   imageUrl,
   onPress,
+  isChevron = true,
 }) {
   return (
     <TouchableHighlight underlayColor={themeColors.lightGrey} onPress={onPress}>
@@ -47,10 +48,12 @@ function ListItem({
             style={styles.iconTitle}
             name="star"
             size={15}
-            color="gold"
+            color={themeColors.primary}
           />
         )}
-        <AppIcon name="chevron-forward" size={25} color={color} />
+        {isChevron && (
+          <AppIcon name="chevron-forward" size={25} color={color} />
+        )}
       </View>
     </TouchableHighlight>
   );

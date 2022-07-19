@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import AppButtonIcon from './AppButtonIcon';
 
-function AppBackIcon({ ...otherProps }) {
+function AppBackIcon({ style, ...otherProps }) {
   return (
     <View style={styles.container}>
-      <View style={styles.buttonBack}>
+      <View style={[styles.buttonBack, style]}>
         <AppButtonIcon name="chevron-back" {...otherProps} />
       </View>
     </View>

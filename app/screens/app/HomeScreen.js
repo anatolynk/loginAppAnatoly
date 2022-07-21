@@ -84,6 +84,8 @@ function HomeScreen({ navigation, route }) {
           </TouchableOpacity>
           <AppErrorMessage visible={isError}>{errorMessage}</AppErrorMessage>
           <FlatList
+            style={styles.flatList}
+            showsVerticalScrollIndicator={false}
             data={usersList}
             keyExtractor={user => user.id.toString()}
             renderItem={({ item }) => (
@@ -115,6 +117,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  flatList: {
+    // width: '100%',
   },
   inputContainer: {},
   buttonContainer: {},

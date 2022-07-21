@@ -28,13 +28,15 @@ export default AppButton;
 
 const styles = StyleSheet.create({
   container: {
-    //
+    // marginHorizontal: 15,
   },
   button: {
     width: '100%',
     justifyContent: 'center',
+    alignSelf: 'center',
     padding: 15,
     marginVertical: 10,
+
     height: 56,
 
     borderRadius: 8,

@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    paddingHorizontal: 22,
+    paddingHorizontal: 20,
+    // backgroundColor: 'gold',
   },
 });

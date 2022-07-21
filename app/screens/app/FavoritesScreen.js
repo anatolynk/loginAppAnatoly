@@ -72,6 +72,7 @@ function FavoritesScreen({ navigation, route }) {
 
           <AppErrorMessage visible={isError}>{errorMessage}</AppErrorMessage>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={usersList}
             keyExtractor={user => user.id.toString()}
             renderItem={({ item }) => (
@@ -80,6 +81,7 @@ function FavoritesScreen({ navigation, route }) {
                 subTitle={item['data'].email}
                 favorite={item['data']?.favorite}
                 imageUrl={item['data'].avatar}
+                isChevron={false}
                 onPress={() =>
                   navigation.navigate({
                     name: 'EditContactScreen',

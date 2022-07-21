@@ -76,7 +76,7 @@ function HomeScreen({ navigation, route }) {
             <View style={styles.detailsContainer}>
               <AppIcon
                 name="add"
-                size={50}
+                size={40}
                 color={themeColors.primary}
                 style={styles.addContact}
               />
@@ -94,6 +94,7 @@ function HomeScreen({ navigation, route }) {
                 subTitle={item['data'].email}
                 favorite={item['data']?.favorite}
                 imageUrl={item['data'].avatar}
+                isChevron={false}
                 onPress={() =>
                   navigation.navigate({
                     name: 'EditContactScreen',
@@ -143,11 +144,6 @@ const styles = StyleSheet.create({
   },
   addContact: {},
   detailsContainer: {
-    marginLeft: 15,
-    // justifyContent: 'flex-start',
-    // alignContent: 'flex-start',
-    // alignItems: 'center',
     alignSelf: 'flex-end',
-    // flex: 0.5,
   },
 });

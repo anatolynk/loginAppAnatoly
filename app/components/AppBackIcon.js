@@ -17,7 +17,7 @@ export default AppBackIcon;
 const styles = StyleSheet.create({
   container: {},
   buttonBack: {
-    marginTop: 12,
+    marginTop: 20,
     marginBottom: 28,
   },
 });
